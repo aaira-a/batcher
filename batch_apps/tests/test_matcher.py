@@ -16,10 +16,10 @@ class RegularExpressionTests(TestCase):
         email_subject = 'Batch App - SGEnquiryNotify sendEnquiryNotify 3 days'
         self.assertTrue(match_full_subject(regex_rule, email_subject))
 
-    def test_capture_execution_date_from_email_subject(self):
+    def test_captured_execution_date_from_email_subject_should_return_formatted_date(self):
         regex_rule = '(?:Batch App - Listing Refresh )(\d{4}/\d{4})'
         email_subject = 'Batch App - Listing Refresh 2010/2014'
-        self.assertEqual(match_and_capture_date(regex_rule, email_subject), '2010/2014')
+        self.assertEqual(match_and_capture_date(regex_rule, email_subject), '2014-10-20')
 
 
 class EmailMatchingTests(TestCase):
