@@ -10,9 +10,15 @@ def match_full_subject(regex, text):
     return bool(re.search(regex, text))
 
 
-def match_and_capture_date(regex, text):
+def match_and_capture_date_noslash(regex, text):
     m = re.search(regex, text)
     extracted_date = datetime.datetime.strptime(m.group(1), "%d%m/%Y")
+    return extracted_date.strftime("%Y-%m-%d")
+
+
+def match_and_capture_date_slash(regex, text):
+    m = re.search(regex, text)
+    extracted_date = datetime.datetime.strptime(m.group(1), "%d/%m/%Y")
     return extracted_date.strftime("%Y-%m-%d")
 
 
