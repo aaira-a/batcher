@@ -17,24 +17,20 @@ class RegularExpressionTests(TestCase):
         self.assertTrue(match_full_subject(regex_rule, email_subject))
 
     def test_captured_execution_date_from_email_subject_should_return_formatted_date(self):
-        regex_rule = '(?:Batch App - Listing Refresh )(\d{4}/\d{4})'
         email_subject = 'Batch App - Listing Refresh 2010/2014'
-        self.assertEqual(match_and_capture_date_noslash(regex_rule, email_subject), '2014-10-20')
+        self.assertEqual(match_and_capture_date(email_subject), '2014-10-20')
 
     def test_captured_execution_date_should_match_any_app(self):
-        regex_rule = '(\d{4}/\d{4})'
         email_subject = 'Batch App - Listing Archive 2010/2014'
-        self.assertEqual(match_and_capture_date_noslash(regex_rule, email_subject), '2014-10-20')
+        self.assertEqual(match_and_capture_date(email_subject), '2014-10-20')
 
     def test_captured_execution_date_should_match_noslash_format(self):
-        regex_rule = '(\d{4}/\d{4})'
         email_subject = 'Batch App - Listing Refresh 2010/2014'
-        self.assertEqual(match_and_capture_date_noslash(regex_rule, email_subject), '2014-10-20')
+        self.assertEqual(match_and_capture_date(email_subject), '2014-10-20')
 
     def test_captured_execution_date_should_match_slash_format(self):
-        regex_rule = '(\d{2}/\d{2}/\d{4})'
         email_subject = 'Alpha and POC Listings and Co-broke Opportunities Report (20/10/2014)'
-        self.assertEqual(match_and_capture_date_slash(regex_rule, email_subject), '2014-10-20')
+        self.assertEqual(match_and_capture_date(email_subject), '2014-10-20')
 
 
 class EmailMatchingTests(TestCase):
