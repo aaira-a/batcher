@@ -1,22 +1,25 @@
 from django.test import TestCase
 from django_mailbox.models import Message
 from batch_apps.models import App, Pattern
-import re
+from batch_apps.matcher import *
 
 
 class RegularExpressionTests(TestCase):
 
-    def test_simple_email_subject_match(self):
+    def test_email_partial_subject_match(self):
         regex_rule = 'Batch App - Listing Refresh '
         email_subject = 'Batch App - Listing Refresh 2010/2014'
-        m = re.search(regex_rule, email_subject)
-        self.assertTrue(m)
+        self.assertTrue(match_partial_prefix(regex_rule, email_subject))
+
+    def test_email_full_subject_match(self):
+        regex_rule = 'Batch App - SGEnquiryNotify sendEnquiryNotify 3 days'
+        email_subject = 'Batch App - SGEnquiryNotify sendEnquiryNotify 3 days'
+        self.assertTrue(match_full_subject(regex_rule, email_subject))
 
     def test_capture_execution_date_from_email_subject(self):
         regex_rule = '(?:Batch App - Listing Refresh )(\d{4}/\d{4})'
         email_subject = 'Batch App - Listing Refresh 2010/2014'
-        m = re.search(regex_rule, email_subject)
-        self.assertEqual(m.group(1), '2010/2014')
+        self.assertEqual(match_and_capture_date(regex_rule, email_subject), '2010/2014')
 
 
 class EmailMatchingTests(TestCase):
@@ -38,5 +41,4 @@ class EmailMatchingTests(TestCase):
     def test_app_matching_single_full_subject_pattern(self):
         app = App.objects.get(name="Batch App - SGEChannel doDevelopmentXML")
         pattern = app.pattern_set.filter(pattern_string="Batch App - SGEChannel doDevelopmentXML")
-        m = re.search(str(pattern), str(app))
-        self.assertTrue(m)
+        self.assertTrue(app_match_full_subject(app, pattern))
