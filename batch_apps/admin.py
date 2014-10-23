@@ -1,5 +1,5 @@
 from django.contrib import admin
-from batch_apps.models import App, Pattern
+from batch_apps.models import App, Pattern, Day, Execution
 
 
 class PatternInline(admin.StackedInline):
@@ -17,3 +17,5 @@ class AppAdmin(admin.ModelAdmin):
     inlines = [PatternInline]
 
 admin.site.register(App, AppAdmin)
+admin.site.register(Day)
+admin.site.register(Execution)

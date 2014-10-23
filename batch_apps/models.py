@@ -21,3 +21,19 @@ class Pattern(models.Model):
 
     def __str__(self):
         return self.pattern_string
+
+
+class Day(models.Model):
+
+    date = models.DateField()
+
+    def __str__(self):
+        return self.date.strftime("%Y-%m-%d")
+
+
+class Execution(models.Model):
+    day = models.ForeignKey(Day)
+    app = models.ForeignKey(App)
+
+    def __str__(self):
+        return str(self.day) + " " + str(self.app)
