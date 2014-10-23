@@ -14,13 +14,13 @@ class App(models.Model):
 class Pattern(models.Model):
 
     app = models.ForeignKey(App)
-    pattern_string = models.CharField(max_length=500)
+    name_pattern = models.CharField(max_length=500)
     is_capturing_date = models.BooleanField(default=False)
     date_pattern = models.CharField(max_length=500, default='', blank=True)
     is_active = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.pattern_string
+        return self.name_pattern
 
 
 class Day(models.Model):
@@ -36,4 +36,4 @@ class Execution(models.Model):
     app = models.ForeignKey(App)
 
     def __str__(self):
-        return str(self.day) + " " + str(self.app)
+        return str(self.app) + " executed on " + str(self.day)

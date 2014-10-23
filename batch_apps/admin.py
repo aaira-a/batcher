@@ -2,7 +2,7 @@ from django.contrib import admin
 from batch_apps.models import App, Pattern, Day, Execution
 
 
-class PatternInline(admin.StackedInline):
+class PatternInline(admin.TabularInline):
     model = Pattern
     extra = 0
 
@@ -16,6 +16,16 @@ class AppAdmin(admin.ModelAdmin):
     ]
     inlines = [PatternInline]
 
+
+class ExecutionInline(admin.TabularInline):
+    model = Execution
+    readonly_fields = ('day', 'app')
+    extra = 0
+
+
+class DayAdmin(admin.ModelAdmin):
+    model = Day
+    inlines = [ExecutionInline]
+
 admin.site.register(App, AppAdmin)
-admin.site.register(Day)
-admin.site.register(Execution)
+admin.site.register(Day, DayAdmin)
