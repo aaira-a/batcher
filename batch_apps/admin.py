@@ -9,7 +9,11 @@ class PatternInline(admin.StackedInline):
 
 class AppAdmin(admin.ModelAdmin):
     list_display = ('name', 'is_active')
-    fields = ['name', 'is_active']
+    fieldsets = [
+        (None, {'fields': ['name']}),
+        (None, {'fields': ['is_active']}),
+        ('Description', {'fields': ['description'], 'classes': ['collapse']}),
+    ]
     inlines = [PatternInline]
 
 admin.site.register(App, AppAdmin)
