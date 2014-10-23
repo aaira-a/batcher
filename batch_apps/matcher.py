@@ -14,6 +14,8 @@ def match_and_capture_date(text, supplied_date_pattern="dd/mm/yyyy"):
     regex_noslash = '(\d{4}/\d{4})'
     regex_slash = '(\d{2}/\d{2}/\d{4})'
 
+    supplied_date_pattern = re.sub('[()]', '', supplied_date_pattern)
+
     if supplied_date_pattern == "dd/mm/yyyy":
         regex = regex_slash
         extraction_format = "%d/%m/%Y"
@@ -30,7 +32,11 @@ def match_and_capture_date(text, supplied_date_pattern="dd/mm/yyyy"):
         regex = regex_noslash
         extraction_format = "%m%d/%Y"
 
+    else:
+        regex = regex_slash
+
     m = re.search(regex, text)
+
     if bool(m) is True:
         extracted_date = datetime.datetime.strptime(m.group(1), extraction_format)
         return extracted_date.strftime("%Y-%m-%d")

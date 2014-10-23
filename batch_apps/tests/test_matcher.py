@@ -37,6 +37,11 @@ class RegularExpressionTests(TestCase):
         email_subject = 'Random App (20/10/2014)'
         self.assertEqual(match_and_capture_date(email_subject), '2014-10-20')
 
+    def test_captured_execution_date_should_strip_brackets_from_supplied_pattern(self):
+        email_subject = 'Random App (20/10/2014)'
+        supplied_pattern = "(dd/mm/yyyy)"
+        self.assertEqual(match_and_capture_date(email_subject, supplied_pattern), '2014-10-20')
+
 
 class EmailMatchingTests(TestCase):
 
