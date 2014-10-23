@@ -320,6 +320,8 @@ class Mailbox(models.Model):
             msg.from_header = convert_header_to_unicode(message['from'])
         if 'to' in message:
             msg.to_header = convert_header_to_unicode(message['to'])
+        if 'date' in message:
+            msg.sent_time = convert_header_to_unicode(message['date'])
         msg.save()
         message = self._get_dehydrated_message(message, msg)
         msg.set_body(message.as_string())
@@ -385,6 +387,11 @@ class Message(models.Model):
 
     message_id = models.CharField(
         _(u'Message ID'),
+        max_length=255
+    )
+
+    sent_time = models.CharField(
+        _('Sent Time'),
         max_length=255
     )
 
