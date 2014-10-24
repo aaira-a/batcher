@@ -3,15 +3,11 @@ import datetime
 import re
 
 
-def match_partial_prefix(regex, text):
+def match_subject(regex, text):
     return bool(re.search(regex, text))
 
 
-def match_full_subject(regex, text):
-    return bool(re.search(regex, text))
-
-
-def match_and_capture_date(text, supplied_date_pattern="dd/mm/yyyy"):
+def capture_date(text, supplied_date_pattern="dd/mm/yyyy"):
     regex_noslash = '(\d{4}/\d{4})'
     regex_slash = '(\d{2}/\d{2}/\d{4})'
 
