@@ -54,7 +54,8 @@ class EmailMatchingTests(TestCase):
             "iProperty.com Singapore Email Alert V2 - Daily Report 2010/2014",
             "Batch App - SGDailyAppTask SendExpiringNotice Success",
             "Batch App - Listing Archive 2010/2014",
-            "Batch App - SGEChannel doDevelopmentXML"
+            "Batch App - SGEChannel doDevelopmentXML",
+            "test email sent at 2014-10-23 1739 gmt +8 and 0939 at utc",
         ]
         for email in emails:
             self.assertIn(email.subject, expected_subjects)
@@ -63,3 +64,8 @@ class EmailMatchingTests(TestCase):
         app = App.objects.get(name="Batch App - SGEChannel doDevelopmentXML")
         pattern = app.pattern_set.filter(name_pattern="Batch App - SGEChannel doDevelopmentXML")
         self.assertTrue(app_match_full_subject(app, pattern))
+
+    def test_email_sent_time_should_be_converted_to_datetime_object_in_gmt8(self):
+        email = Message.objects.get(sent_time="Thu, 23 Oct 2014 17:37:52 +0800")
+        expected_object = datetime.datetime.strptime("2014-10-23 17:37:52 +0800", "%Y-%m-%d %H:%M:%S %z")
+        self.assertEqual(convert_sent_time_string_to_datetime_object(email.sent_time), expected_object)
