@@ -43,8 +43,3 @@ def capture_date(text, supplied_date_pattern="dd/mm/yyyy"):
 
 def app_match_full_subject(app, pattern):
     return bool(re.search(str(pattern), str(app)))
-
-
-def convert_sent_time_string_to_datetime_object(senttime_string):
-    gmt8_datetime = parsedate_to_datetime(senttime_string)
-    return gmt8_datetime

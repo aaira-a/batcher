@@ -66,6 +66,6 @@ class EmailMatchingTests(TestCase):
         self.assertTrue(app_match_full_subject(app, pattern))
 
     def test_email_sent_time_should_be_converted_to_datetime_object_in_gmt8(self):
-        email = Message.objects.get(sent_time="Thu, 23 Oct 2014 17:37:52 +0800")
-        expected_object = datetime.datetime.strptime("2014-10-23 17:37:52 +0800", "%Y-%m-%d %H:%M:%S %z")
-        self.assertEqual(convert_sent_time_string_to_datetime_object(email.sent_time), expected_object)
+        email = Message.objects.get(message_id="<CAFKhJv0yhRMvdqF9JGabbHDH2Esw86Q9OZ40B52-y=MPLCyYBg@mail.gmail.com>")
+        expected_object = datetime.datetime.strptime("2014-10-20 10:31:25 +0800", "%Y-%m-%d %H:%M:%S %z")
+        self.assertEqual(email.sent_time, expected_object)

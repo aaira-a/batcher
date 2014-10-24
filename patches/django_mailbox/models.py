@@ -7,7 +7,7 @@ Models declaration for application ``django_mailbox``.
 
 from email.encoders import encode_base64
 from email.message import Message as EmailMessage
-from email.utils import formatdate, parseaddr
+from email.utils import formatdate, parseaddr, parsedate_to_datetime
 from quopri import encode as encode_quopri
 import base64
 import email
@@ -321,7 +321,8 @@ class Mailbox(models.Model):
         if 'to' in message:
             msg.to_header = convert_header_to_unicode(message['to'])
         if 'date' in message:
-            msg.sent_time = convert_header_to_unicode(message['date'])
+            sent_time_str = convert_header_to_unicode(message['date'])
+            msg.sent_time = parsedate_to_datetime(sent_time_str)
         msg.save()
         message = self._get_dehydrated_message(message, msg)
         msg.set_body(message.as_string())
@@ -390,9 +391,8 @@ class Message(models.Model):
         max_length=255
     )
 
-    sent_time = models.CharField(
+    sent_time = models.DateTimeField(
         _('Sent Time'),
-        max_length=255
     )
 
     in_reply_to = models.ForeignKey(
