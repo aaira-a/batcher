@@ -13,10 +13,18 @@ class App(models.Model):
 
 class Pattern(models.Model):
 
+    DATE_PATTERNS = (
+        ('', ''),
+        ('dd/mm/yyyy', 'dd/mm/yyyy'),
+        ('mm/dd/yyyy', 'mm/dd/yyyy'),
+        ('ddmm/yyyy',  'ddmm/yyyy'),
+        ('mmdd/yyyy',  'mmdd/yyyy'),
+    )
+
     app = models.ForeignKey(App)
     name_pattern = models.CharField(max_length=500)
     is_capturing_date = models.BooleanField(default=False)
-    date_pattern = models.CharField(max_length=500, default='', blank=True)
+    date_pattern = models.CharField(max_length=64, choices=DATE_PATTERNS, default='', blank=True)
     is_active = models.BooleanField(default=False)
 
     def __str__(self):
