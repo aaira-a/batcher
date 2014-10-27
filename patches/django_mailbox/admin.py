@@ -58,17 +58,24 @@ class MessageAttachmentInline(admin.TabularInline):
 
 
 class MessageAdmin(admin.ModelAdmin):
+
     def attachment_count(self, msg):
         return msg.attachments.count()
 
     def subject(self, msg):
         return convert_header_to_unicode(msg.subject)
 
+    def sent_time(self, msg):
+        return msg.sent_time
+
     inlines = [
         MessageAttachmentInline,
     ]
     list_display = (
         'subject',
+        'matched_batch_apps',
+        'processed_batch_apps',
+        'sent_time',
         'processed',
         'read',
         'mailbox',

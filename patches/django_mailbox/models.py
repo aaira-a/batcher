@@ -440,6 +440,16 @@ class Message(models.Model):
         null=True,
     )
 
+    matched_batch_apps = models.BooleanField(
+        _('Matched by BA'),
+        default=False,
+    )
+
+    processed_batch_apps = models.BooleanField(
+        _('Processed by BA'),
+        default=False,
+    )
+
     objects = models.Manager()
     unread_messages = UnreadMessageManager()
     incoming_messages = IncomingMessageManager()
