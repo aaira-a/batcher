@@ -1,1 +1,73 @@
-[{"model": "batch_apps.app", "pk": 1, "fields": {"name": "Batch App - SGEChannel doDevelopmentXML", "is_active": true}}, {"model": "batch_apps.pattern", "pk": 4, "fields": {"is_active": true, "app": 1, "name_pattern": "Batch App - SGEChannel doDevelopmentXML"}}, {"model": "batch_apps.pattern", "pk": 5, "fields": {"is_active": false, "app": 1, "name_pattern": "Pattern 2 for App 001"}}, {"model": "batch_apps.pattern", "pk": 6, "fields": {"is_active": false, "app": 1, "name_pattern": "\"'`~!@#$%^&*()_+[]\\{}|:\";'<>?,./"}}]
+[
+{
+  "pk": 1,
+  "fields": {
+    "name": "Batch App - SGEChannel doDevelopmentXML",
+    "description": "",
+    "is_active": false
+  },
+  "model": "batch_apps.app"
+},
+{
+  "pk": 2,
+  "fields": {
+    "name": "GPS Listings and Co-broke Opportunities Report",
+    "description": "",
+    "is_active": true
+  },
+  "model": "batch_apps.app"
+},
+{
+  "pk": 3,
+  "fields": {
+    "name": "SGEChannel doOverseasXML",
+    "description": "",
+    "is_active": true
+  },
+  "model": "batch_apps.app"
+},
+{
+  "pk": 1,
+  "fields": {
+    "date_pattern": "",
+    "is_capturing_date": false,
+    "name_pattern": "Batch App - SGEChannel doDevelopmentXML",
+    "is_active": false,
+    "app": 1
+  },
+  "model": "batch_apps.pattern"
+},
+{
+  "pk": 2,
+  "fields": {
+    "date_pattern": "",
+    "is_capturing_date": false,
+    "name_pattern": "GPS Listings and Co-broke Opportunities Report",
+    "is_active": false,
+    "app": 2
+  },
+  "model": "batch_apps.pattern"
+},
+{
+  "pk": 3,
+  "fields": {
+    "date_pattern": "dd/mm/yyyy",
+    "is_capturing_date": true,
+    "name_pattern": "GPS Listings and Co-broke Opportunities Report",
+    "is_active": true,
+    "app": 2
+  },
+  "model": "batch_apps.pattern"
+},
+{
+  "pk": 4,
+  "fields": {
+    "date_pattern": "",
+    "is_capturing_date": false,
+    "name_pattern": "doOverseasXML",
+    "is_active": true,
+    "app": 3
+  },
+  "model": "batch_apps.pattern"
+}
+]
