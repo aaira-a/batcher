@@ -1,4 +1,3 @@
-from email.utils import parsedate_to_datetime
 import datetime
 import re
 
@@ -30,7 +29,7 @@ def capture_date(text, supplied_date_pattern="dd/mm/yyyy"):
         extraction_format = "%m%d/%Y"
 
     else:
-        regex = regex_slash
+        return None
 
     m = re.search(regex, text)
 
