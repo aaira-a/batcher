@@ -29,15 +29,13 @@ def capture_date(text, supplied_date_pattern="dd/mm/yyyy"):
         extraction_format = "%m%d/%Y"
 
     else:
-        return None
+        return
 
     m = re.search(regex, text)
 
     if bool(m) is True:
         extracted_date = datetime.datetime.strptime(m.group(1), extraction_format)
         return extracted_date.strftime("%Y-%m-%d")
-
-    return None
 
 
 def app_match_full_subject(app, pattern):

@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django_mailbox.models import Message
+from batch_apps.models import App, Day, Execution
 from batch_apps.matcher import *
+from datetime import date
 
 
 class MessageModelTest(TestCase):
@@ -24,3 +26,19 @@ class MessageModelTest(TestCase):
         email = Message.objects.get(message_id="<CAFKhJv0yhRMvdqF9JGabbHDH2Esw86Q9OZ40B52-y=MPLCyYBg@mail.gmail.com>")
         expected_object = datetime.datetime.strptime("2014-10-20 10:31:25 +0800", "%Y-%m-%d %H:%M:%S %z")
         self.assertEqual(email.sent_time, expected_object)
+
+
+class DayModelTest(TestCase):
+
+    def test_day_model_should_return_yyyy_mm_dd_as_string_representation(self):
+        day = Day.objects.create(date=datetime.date(2014, 10, 20))
+        self.assertEqual(day.__str__(), "2014-10-20")
+
+
+class ExecutionModelTest(TestCase):
+
+    def test_execution_model_should_return_both_app_and_day_as_string_representation(self):
+        app_ = App.objects.create(name="My App 001")
+        day_ = Day.objects.create(date=datetime.date(2014, 10, 20))
+        execution = Execution.objects.create(day=day_, app=app_)
+        self.assertEqual(execution.__str__(), "My App 001 executed on 2014-10-20")
