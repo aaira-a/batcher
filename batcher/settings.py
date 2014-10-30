@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_mailbox',
     'batch_apps',
+    'coverage',
 )
 
 MIDDLEWARE_CLASSES = (
