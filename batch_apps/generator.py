@@ -16,7 +16,7 @@ def create_day_object(date_):
 def create_execution_object(day_, app_):
 
     if app_.is_active is True:
-        execution, is_new = Execution.objects.get_or_create(day=day_, app=app_)
+        execution, is_new = Execution.objects.get_or_create(day=day_, app=app_, is_due_today=app_due_today(app_))
         return execution
 
     else:
@@ -34,3 +34,11 @@ def create_execution_objects(day_, applist):
     executions_strip_none = [x for x in executions if x is not None]
 
     return executions_strip_none
+
+
+def app_due_today(app):
+
+    if app.frequency == 'daily':
+        return True
+    else:
+        return False

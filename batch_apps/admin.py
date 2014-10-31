@@ -9,10 +9,11 @@ class PatternInline(admin.TabularInline):
 
 class AppAdmin(admin.ModelAdmin):
     actions = ['activate_apps', 'deactivate_apps']
-    list_display = ('name', 'is_active')
+    list_display = ('name', 'is_active', 'frequency')
     fieldsets = [
         (None, {'fields': ['name']}),
         (None, {'fields': ['is_active']}),
+        (None, {'fields': ['frequency']}),
         ('Description', {'fields': ['description'], 'classes': ['collapse']}),
     ]
     inlines = [PatternInline]

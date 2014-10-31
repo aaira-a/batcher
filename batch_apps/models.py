@@ -6,6 +6,7 @@ class App(models.Model):
     name = models.CharField(max_length=500)
     is_active = models.BooleanField(default=False)
     description = models.TextField(max_length=500, default='', blank=True)
+    frequency = models.CharField(max_length=500, default='daily')
 
     def __str__(self):
         return self.name
