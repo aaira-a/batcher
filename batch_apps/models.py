@@ -1,4 +1,5 @@
 from django.db import models
+from django_mailbox.models import Message
 
 
 class App(models.Model):
@@ -43,6 +44,7 @@ class Day(models.Model):
 class Execution(models.Model):
     day = models.ForeignKey(Day)
     app = models.ForeignKey(App)
+    email = models.ForeignKey(Message, null=True)
     is_executed = models.BooleanField(default=False)
     is_due_today = models.BooleanField(default=False)
 

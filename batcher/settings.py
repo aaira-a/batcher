@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django_mailbox',
     'batch_apps',
     'coverage',
+    'django_extensions',
 )
 
 MIDDLEWARE_CLASSES = (
