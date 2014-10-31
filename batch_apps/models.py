@@ -42,6 +42,17 @@ class Day(models.Model):
 class Execution(models.Model):
     day = models.ForeignKey(Day)
     app = models.ForeignKey(App)
+    is_executed = models.BooleanField(default=False)
+    is_due_today = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.app) + " executed on " + str(self.day)
+
+        if self.is_executed is True:
+            return str(self.app) + " executed on " + str(self.day)
+
+        elif self.is_executed is False and \
+                self.is_due_today is True:
+            return str(self.app) + " yet to be executed on " + str(self.day)
+
+        else:
+            return str(self.app) + " not to be executed on " + str(self.day)

@@ -37,8 +37,20 @@ class DayModelTest(TestCase):
 
 class ExecutionModelTest(TestCase):
 
-    def test_execution_model_should_return_both_app_and_day_as_string_representation(self):
+    def test_execution_model_should_return_string_for_successful_execution(self):
         app_ = App.objects.create(name="My App 001")
         day_ = Day.objects.create(date=datetime.date(2014, 10, 20))
-        execution = Execution.objects.create(day=day_, app=app_)
+        execution = Execution.objects.create(day=day_, app=app_, is_executed=True)
         self.assertEqual(execution.__str__(), "My App 001 executed on 2014-10-20")
+
+    def test_execution_model_should_return_string_for_pending_execution(self):
+        app_ = App.objects.create(name="My App 001")
+        day_ = Day.objects.create(date=datetime.date(2014, 10, 20))
+        execution = Execution.objects.create(day=day_, app=app_, is_executed=False, is_due_today=True)
+        self.assertEqual(execution.__str__(), "My App 001 yet to be executed on 2014-10-20")
+
+    def test_execution_model_should_return_string_for_inactive_execution(self):
+        app_ = App.objects.create(name="My App 001")
+        day_ = Day.objects.create(date=datetime.date(2014, 10, 20))
+        execution = Execution.objects.create(day=day_, app=app_, is_executed=False, is_due_today=False)
+        self.assertEqual(execution.__str__(), "My App 001 not to be executed on 2014-10-20")
