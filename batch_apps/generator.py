@@ -21,3 +21,16 @@ def create_execution_object(day_, app_):
 
     else:
         return None
+
+
+def create_execution_objects(day_, applist):
+
+    executions = []
+
+    for app in applist:
+        execution = create_execution_object(day_, app)
+        executions.append(execution)
+
+    executions_strip_none = [x for x in executions if x is not None]
+
+    return executions_strip_none
