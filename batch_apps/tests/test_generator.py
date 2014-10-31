@@ -13,3 +13,8 @@ class GenerateDayTest(TestCase):
     def test_create_day_object_for_today_in_gmt8(self):
         day = create_day_object(get_current_date_in_gmt8())
         self.assertEqual(day.date, get_current_date_in_gmt8())
+
+    def test_create_day_object_must_return_existing_object_if_already_exists(self):
+        day_existing = create_day_object(get_current_date_in_gmt8())
+        day_new = create_day_object(get_current_date_in_gmt8())
+        self.assertEqual(day_existing, day_new)

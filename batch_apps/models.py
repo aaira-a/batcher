@@ -33,7 +33,7 @@ class Pattern(models.Model):
 
 class Day(models.Model):
 
-    date = models.DateField()
+    date = models.DateField(unique=True)
 
     def __str__(self):
         return self.date.strftime("%Y-%m-%d")

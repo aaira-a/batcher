@@ -9,5 +9,5 @@ def get_current_date_in_gmt8():
 
 
 def create_day_object(date_):
-    day = Day.objects.create(date=date_)
+    day, is_new = Day.objects.get_or_create(date=date_)
     return day
