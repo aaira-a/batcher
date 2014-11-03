@@ -18,7 +18,7 @@ FREQUENCY_CHOICES = (
     ('weekly - fridays',    'weekly - fridays'),
     ('weekly - saturdays',  'weekly - saturdays'),
     ('weekly - sundays',    'weekly - sundays'),
-    ('monthly - 1st day',   'monthly - 1st day'),
+    ('monthly - day 01',   'monthly - day 01'),
 )
 
 

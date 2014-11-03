@@ -74,13 +74,31 @@ class GenerateExecutionTest(TestCase):
         self.assertTrue(execution.is_due_today)
 
     def test_app_due_today_should_return_true_for_matching_weekly_day(self):
-        fail
+        day = Day.objects.create(date=datetime.date(2014, 10, 20))
+        app = App.objects.create(name='Weekly Monday App 001', is_active=True, frequency='weekly - mondays')
+        execution = create_execution_object(day, app)
+        self.assertTrue(execution.is_due_today)
 
     def test_app_due_today_should_return_false_for_non_matching_weekly_day(self):
-        fail
+        day = Day.objects.create(date=datetime.date(2014, 10, 20))
+        app = App.objects.create(name='Weekly Tuesday App 001', is_active=True, frequency='weekly - tuesdays')
+        execution = create_execution_object(day, app)
+        self.assertFalse(execution.is_due_today)
 
     def test_app_due_today_should_return_true_for_matching_monthly_day(self):
-        fail
+        day = Day.objects.create(date=datetime.date(2014, 11, 1))
+        app = App.objects.create(name='Monthly App - Day 01', is_active=True, frequency='monthly - day 01')
+        execution = create_execution_object(day, app)
+        self.assertTrue(execution.is_due_today)
 
     def test_app_due_today_should_return_false_for_non_matching_monthly_day(self):
-        fail
+        day = Day.objects.create(date=datetime.date(2014, 11, 1))
+        app = App.objects.create(name='Monthly App - Day 15', is_active=True, frequency='monthly - day 15')
+        execution = create_execution_object(day, app)
+        self.assertFalse(execution.is_due_today)
+
+    def test_get_day_of_week_from_string(self):
+        self.assertEqual(get_day_of_week_from_string('monday'), 'Monday')
+
+    def test_get_day_of_month_from_string(self):
+        self.assertEqual(get_day_of_month_from_string('01'), '01')
