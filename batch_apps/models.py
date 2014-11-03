@@ -1,27 +1,39 @@
 from django.db import models
 from django_mailbox.models import Message
 
+DATE_PATTERNS = (
+    ('', ''),
+    ('dd/mm/yyyy', 'dd/mm/yyyy'),
+    ('mm/dd/yyyy', 'mm/dd/yyyy'),
+    ('ddmm/yyyy',  'ddmm/yyyy'),
+    ('mmdd/yyyy',  'mmdd/yyyy'),
+)
+
+FREQUENCY_CHOICES = (
+    ('daily', 'daily'),
+    ('weekly - mondays',    'weekly - mondays'),
+    ('weekly - tuesdays',   'weekly - tuesdays'),
+    ('weekly - wednesdays', 'weekly - wednesdays'),
+    ('weekly - thursdays',  'weekly - thursdays'),
+    ('weekly - fridays',    'weekly - fridays'),
+    ('weekly - saturdays',  'weekly - saturdays'),
+    ('weekly - sundays',    'weekly - sundays'),
+    ('monthly - 1st day',   'monthly - 1st day'),
+)
+
 
 class App(models.Model):
 
     name = models.CharField(max_length=500)
     is_active = models.BooleanField(default=False)
     description = models.TextField(max_length=500, default='', blank=True)
-    frequency = models.CharField(max_length=500, default='daily')
+    frequency = models.CharField(max_length=500, choices=FREQUENCY_CHOICES, default='', blank=True)
 
     def __str__(self):
         return self.name
 
 
 class Pattern(models.Model):
-
-    DATE_PATTERNS = (
-        ('', ''),
-        ('dd/mm/yyyy', 'dd/mm/yyyy'),
-        ('mm/dd/yyyy', 'mm/dd/yyyy'),
-        ('ddmm/yyyy',  'ddmm/yyyy'),
-        ('mmdd/yyyy',  'mmdd/yyyy'),
-    )
 
     app = models.ForeignKey(App)
     name_pattern = models.CharField(max_length=500)
