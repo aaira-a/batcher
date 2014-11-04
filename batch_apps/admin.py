@@ -20,10 +20,12 @@ class AppAdmin(admin.ModelAdmin):
 
     def activate_apps(self, request, queryset):
         queryset.update(is_active=True)
+        return 'activated'
     activate_apps.short_description = "Activate selected Apps"
 
     def deactivate_apps(self, request, queryset):
         queryset.update(is_active=False)
+        return 'deactivated'
     deactivate_apps.short_description = "Deactivate selected Apps"
 
 
