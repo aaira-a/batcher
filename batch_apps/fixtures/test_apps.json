@@ -27,6 +27,16 @@
   "model": "batch_apps.app"
 },
 {
+  "pk": 4,
+  "fields": {
+    "name": "SGDailyAppTask SendExpiringNotice",
+    "description": "",
+    "is_active": true,
+    "frequency": "daily"
+  },
+  "model": "batch_apps.app"
+},
+{
   "pk": 1,
   "fields": {
     "date_pattern": "",
@@ -67,6 +77,17 @@
     "name_pattern": "doOverseasXML",
     "is_active": true,
     "app": 3
+  },
+  "model": "batch_apps.pattern"
+},
+{
+  "pk": 5,
+  "fields": {
+    "date_pattern": "",
+    "is_capturing_date": false,
+    "name_pattern": "SendExpiringNotice Success",
+    "is_active": true,
+    "app": 4
   },
   "model": "batch_apps.pattern"
 }
