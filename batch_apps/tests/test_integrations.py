@@ -3,6 +3,7 @@ from batch_apps.models import App
 from django_mailbox.models import Message
 from batch_apps.matcher import *
 from batch_apps.generator import *
+from batch_apps.integration import *
 
 
 class AppPatternMatcherTest(TestCase):
@@ -19,7 +20,7 @@ class EmailExecutionAppPatternMatcherTest(TestCase):
 
     fixtures = ['test_apps.json', 'test_messages.json']
 
-    def test_email_matches_single_active_daily_app_with_single_active_pattern(self):
+    def test_email_matches_single_active_daily_app_with_single_active_pattern_using_low_level_steps(self):
         app = App.objects.get(name="SGDailyAppTask SendExpiringNotice")
         self.assertTrue(app.is_active)
         self.assertEqual(app.frequency, 'daily')
@@ -58,5 +59,33 @@ class EmailExecutionAppPatternMatcherTest(TestCase):
         self.assertTrue(email_recheck.matched_batch_apps)
 
         execution_recheck = create_execution_object(day, app)
+        self.assertTrue(execution_recheck.is_executed)
+        self.assertEqual(execution_recheck.email, email)
+
+    def test_execute_end_to_end_module_using_fixture_should_pass(self):
+        app = App.objects.get(name="SGDailyAppTask SendExpiringNotice")
+        self.assertTrue(app.is_active)
+        self.assertEqual(app.frequency, 'daily')
+
+        pattern_list = app.pattern_set.filter(is_active=True)
+        self.assertEqual(len(pattern_list), 1)
+        pattern = pattern_list[0]
+        self.assertEqual(pattern.name_pattern, "SendExpiringNotice Success")
+        self.assertTrue(pattern.is_active)
+
+        email = Message.objects.get(message_id="<CAFKhJv21JtjnT74zzsrRuOwyEU1=1bnz2mzKV8e0_DAw0U46KA@mail.gmail.com>")
+        self.assertEqual(email.subject, "Batch App - SGDailyAppTask SendExpiringNotice Success")
+        self.assertEqual(str(email.sent_time), "2014-10-20 02:31:25+00:00")
+        self.assertFalse(email.processed_batch_apps)
+        self.assertFalse(email.matched_batch_apps)
+
+        execute_end_to_end_tasks_on_date(datetime.date(2014, 10, 20))
+
+        email_recheck = Message.objects.get(message_id="<CAFKhJv21JtjnT74zzsrRuOwyEU1=1bnz2mzKV8e0_DAw0U46KA@mail.gmail.com>")
+        self.assertEqual(email_recheck, email)
+        self.assertTrue(email_recheck.processed_batch_apps)
+        self.assertTrue(email_recheck.matched_batch_apps)
+
+        execution_recheck = Execution.objects.get(app=app, day__date=datetime.date(2014, 10, 20))
         self.assertTrue(execution_recheck.is_executed)
         self.assertEqual(execution_recheck.email, email)
