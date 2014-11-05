@@ -5,9 +5,9 @@ from batch_apps.matcher import *
 
 
 def execute_end_to_end_tasks_on_date(date_):
-    day_object = create_day_object(date_)
+    day_object = get_or_create_day_object(date_)
     active_apps = App.objects.filter(is_active=True)
-    create_execution_objects(day_object, active_apps)
+    get_or_create_execution_objects(day_object, active_apps)
     executions_due = Execution.objects.filter(day__date=date_, is_due_today=True)
 
     emails = Message.objects.filter(sent_time__contains=date_)
