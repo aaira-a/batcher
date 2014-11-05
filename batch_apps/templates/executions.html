@@ -1,6 +1,18 @@
-<h1> list of executions for {{ date }}</h1>
-<ul>
-{% for execution in executions_list %}
-    <li>{{ execution }}</li>
-{% endfor %}
-</ul>
+<h1> List of executions for {{ date }}</h1>
+
+<table border="1">
+	<tr>
+		<td>App</td>
+		<td>Frequency</td>
+		<td>Is Due Today</td>
+		<td>Is executed</td>
+	</tr>
+	{% for execution in executions_list %}
+		<tr>
+			<td>{{ execution.app }}</td>
+			<td>{{ execution.app.frequency }}</td>
+			<td>{{ execution.is_due_today }}</td>
+			<td>{{ execution.is_executed }}</td>
+		</tr>
+	{% endfor %}
+</table>
