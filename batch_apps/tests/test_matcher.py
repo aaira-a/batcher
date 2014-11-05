@@ -1,5 +1,6 @@
 from django.test import TestCase
 from batch_apps.matcher import *
+from batch_apps.models import App, Pattern
 
 
 class RegularExpressionTest(TestCase):
@@ -48,3 +49,35 @@ class RegularExpressionTest(TestCase):
         email_subject = 'Random App (20/10/2014)'
         supplied_pattern = "dd-mm-yyyy"
         self.assertEqual(capture_date(email_subject, supplied_pattern), None)
+
+
+class EmailToAppMatcherTest(TestCase):
+
+    def test_matcher_should_match_email_subject_to_app_with_single_active_pattern(self):
+        app_ = App.objects.create(name='Simple App Identifier 001', is_active=True, frequency='daily')
+        Pattern.objects.create(app=app_, name_pattern="App Identifier 001", is_active=True, is_capturing_date=False)
+        email_subject = "Simple App Identifier 001 - Successfully Executed"
+        self.assertTrue(match_email_subject_to_app(email_subject, app_))
+
+    def test_matcher_should_ignore_inactive_patterns_during_matching(self):
+        app_ = App.objects.create(name='Simple App Identifier 002', is_active=True, frequency='daily')
+        Pattern.objects.create(app=app_, name_pattern="ActivePattern001",   is_active=True, is_capturing_date=False)
+        Pattern.objects.create(app=app_, name_pattern="ActivePattern002",   is_active=True, is_capturing_date=False)
+        Pattern.objects.create(app=app_, name_pattern="InactivePattern001", is_active=False, is_capturing_date=False)
+        Pattern.objects.create(app=app_, name_pattern="InactivePattern002", is_active=False, is_capturing_date=False)
+        email_subject = "ActivePattern001 & ActivePattern002 are matched, even if InactivePattern001 is in the subject"
+        self.assertTrue(match_email_subject_to_app(email_subject, app_))
+
+    def test_matcher_should_match_email_subject_to_all_active_patterns_for_an_app(self):
+        app_ = App.objects.create(name='App Identifier 003', is_active=True, frequency='daily')
+        Pattern.objects.create(app=app_, name_pattern="ABC", is_active=True, is_capturing_date=False)
+        Pattern.objects.create(app=app_, name_pattern="XYZ", is_active=True, is_capturing_date=False)
+        email_subject = "Email Subject - XYZ pattern and ABC pattern"
+        self.assertTrue(match_email_subject_to_app(email_subject, app_))
+
+    def test_matcher_should_return_false_if_not_all_active_patterns_are_matched(self):
+        app_ = App.objects.create(name='App Identifier 004', is_active=True, frequency='daily')
+        Pattern.objects.create(app=app_, name_pattern="ABC", is_active=True, is_capturing_date=False)
+        Pattern.objects.create(app=app_, name_pattern="XYZ", is_active=True, is_capturing_date=False)
+        email_subject = "Email Subject - XYZ pattern only, no abc.upper()"
+        self.assertFalse(match_email_subject_to_app(email_subject, app_))
