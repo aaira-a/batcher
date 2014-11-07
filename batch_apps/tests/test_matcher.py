@@ -40,6 +40,18 @@ class RegularExpressionTest(TestCase):
         email_subject = 'Random App (10/20/2014)'
         self.assertEqual(capture_date(email_subject, 'mm/dd/yyyy'), '2014-10-20')
 
+    def test_captured_execution_date_should_accommodate_single_digit_day_in_ddmmyyyy_format(self):
+        email_subject = 'Random App (6/11/2014)'
+        self.assertEqual(capture_date(email_subject, "dd/mm/yyyy"), '2014-11-06')
+
+    def test_captured_execution_date_should_accommodate_single_digit_month_in_ddmmyyyy_format(self):
+        email_subject = 'Random App (25/3/2014)'
+        self.assertEqual(capture_date(email_subject, "dd/mm/yyyy"), '2014-03-25')
+
+    def test_captured_execution_date_should_accommodate_single_digit_day_and_month_in_ddmmyyyy_format(self):
+        email_subject = 'Random App (5/5/2014)'
+        self.assertEqual(capture_date(email_subject, "dd/mm/yyyy"), '2014-05-05')
+
     def test_captured_execution_date_should_strip_brackets_from_supplied_pattern(self):
         email_subject = 'Random App (20/10/2014)'
         supplied_pattern = "(dd/mm/yyyy)"

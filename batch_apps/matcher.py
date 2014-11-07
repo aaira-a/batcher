@@ -8,7 +8,7 @@ def match_subject(regex, text):
 
 def capture_date(text, supplied_date_pattern="dd/mm/yyyy"):
     regex_noslash = '(\d{4}/\d{4})'
-    regex_slash = '(\d{2}/\d{2}/\d{4})'
+    regex_slash = '(\d{1,2}/\d{1,2}/\d{4})'
 
     supplied_date_pattern = re.sub('[()]', '', supplied_date_pattern)
 
