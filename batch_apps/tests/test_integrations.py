@@ -1,5 +1,5 @@
 from django.test import TestCase
-from batch_apps.models import App
+from batch_apps.models import App, Day
 from django_mailbox.models import Message
 from batch_apps.matcher import *
 from batch_apps.generator import *
@@ -89,3 +89,9 @@ class EmailExecutionAppPatternMatcherTest(TestCase):
         execution_recheck = Execution.objects.get(app=app, day__date=datetime.date(2014, 10, 20))
         self.assertTrue(execution_recheck.is_executed)
         self.assertEqual(execution_recheck.email, email)
+
+    def test_execute_end_to_end_module_should_default_to_today_if_date_is_not_given(self):
+        execute_end_to_end_tasks_on_date()
+        day = Day.objects.get(pk=1)
+        self.assertEqual(len(Day.objects.all()), 1)
+        self.assertEqual(get_current_date_in_gmt8(), day.date)

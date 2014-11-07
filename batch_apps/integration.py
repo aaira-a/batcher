@@ -4,7 +4,7 @@ from batch_apps.generator import *
 from batch_apps.matcher import *
 
 
-def execute_end_to_end_tasks_on_date(date_):
+def execute_end_to_end_tasks_on_date(date_=get_current_date_in_gmt8()):
     day_object = get_or_create_day_object(date_)
     active_apps = App.objects.filter(is_active=True)
     get_or_create_execution_objects(day_object, active_apps)
