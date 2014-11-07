@@ -18,9 +18,9 @@ def index(request):
     return render(request, 'executions.html', context)
 
 
-def specific_date(request, year, month, day):
+def specific_date(request, yyyy_mm_dd):
 
-    date_ = datetime.date(2014, 11, 3)
+    date_ = datetime.datetime.strptime(yyyy_mm_dd, "%Y-%m-%d").date()
     day_object = get_or_create_day_object(date_)
 
     active_apps = App.objects.filter(is_active=True)

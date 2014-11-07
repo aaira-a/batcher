@@ -14,3 +14,7 @@ class ExecutionsViewTest(TestCase):
     def test_url_specific_execution_date_renders_execution_template(self):
         response = self.client.get('/executions/2014-11-03/')
         self.assertTemplateUsed(response, 'executions.html')
+
+    def test_specific_date_execution_view_should_render_for_correct_date_context(self):
+        response = self.client.get('/executions/2014-10-25/')
+        self.assertContains(response, "Oct. 25, 2014")
