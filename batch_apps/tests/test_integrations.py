@@ -45,11 +45,11 @@ class EmailExecutionAppPatternMatcherTest(TestCase):
         matched = match_subject(str(pattern), email.subject)
         self.assertTrue(matched)
 
-        email.matched_batch_apps = 1
-        email.processed_batch_apps = 1
+        email.matched_batch_apps = True
+        email.processed_batch_apps = True
         email.save()
 
-        execution.is_executed = 1
+        execution.is_executed = True
         execution.email = email
         execution.save()
 

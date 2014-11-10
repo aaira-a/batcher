@@ -17,10 +17,10 @@ def execute_end_to_end_tasks_on_date(date_=get_current_date_in_gmt8()):
             matched = match_email_subject_to_app(email.subject, execution.app)
 
             if matched is True:
-                email.matched_batch_apps = 1
+                email.matched_batch_apps = True
                 execution.is_executed = True
                 execution.email = email
                 execution.save()
 
-            email.processed_batch_apps = 1
+            email.processed_batch_apps = True
             email.save()
