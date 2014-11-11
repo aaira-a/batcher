@@ -1,5 +1,7 @@
 from django.contrib import admin
 from batch_apps.models import App, Pattern, Day, Execution
+from django.db import models
+from django.forms import TextInput
 
 
 class PatternInline(admin.TabularInline):
@@ -9,14 +11,21 @@ class PatternInline(admin.TabularInline):
 
 class AppAdmin(admin.ModelAdmin):
     actions = ['activate_apps', 'deactivate_apps']
-    list_display = ('name', 'is_active', 'frequency')
+    list_display = ('name', 'is_active', 'frequency', 'country', 'category', )
     fieldsets = [
         (None, {'fields': ['name']}),
         (None, {'fields': ['is_active']}),
         (None, {'fields': ['frequency']}),
-        ('Description', {'fields': ['description'], 'classes': ['collapse']}),
+        (None, {'fields': ['country']}),
+        (None, {'fields': ['category']}),
+        (None, {'fields': ['repo']}),
+        ('Description', {'fields': ['description'], }),
     ]
     inlines = [PatternInline]
+
+    formfield_overrides = {
+        models.CharField: {'widget': TextInput(attrs={'size': '150'})},
+    }
 
     def activate_apps(self, request, queryset):
         queryset.update(is_active=True)
