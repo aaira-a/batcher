@@ -1,0 +1,10 @@
+coverage==3.7.1
+django==1.7
+django_extensions==1.4.4
+django_mailbox==4.0.2
+pytz==2014.7
+
+
+# pydot and graphviz for graphing the models using django_extensions
+# https://github.com/nlhepler/pydot
+# graphviz==0.4.2
