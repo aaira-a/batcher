@@ -8,26 +8,31 @@
 
     <img src="{% static 'image.png' %}"/>
 
-    <h1> List of executions for {{ dates.0 }} - {{ dates.6 }}</h1>
+    <h1> List of executions due for {{ dates.0 }} - {{ dates.6 }}</h1>
 
     <table class="table-bordered table-striped table-hover table-condensed">
         <thead>
             <tr>
                 <td>App</td>
-                <td>Date</td>
-                <td>Frequency</td>
-                <td>Is Due Today</td>
-                <td>Is executed</td>
+                <td>{{ dates.0 }}</td>
+                <td>{{ dates.1 }}</td>
+                <td>{{ dates.2 }}</td>
+                <td>{{ dates.3 }}</td>
+                <td>{{ dates.4 }}</td>
+                <td>{{ dates.5 }}</td>
+                <td>{{ dates.6 }}</td>
             </tr>
         </thead>
-
-        {% for execution in executions_list %}
+        {% for app_day_exec in execution_matrix %}
             <tr>
-                <td>{{ execution.app }}</td>
-                <td>{{ execution.day }}</td>
-                <td>{{ execution.app.frequency }}</td>
-                <td>{{ execution.is_due_today }}</td>
-                <td>{{ execution.is_executed }}</td>
+                <td>{{ app_day_exec.0.0.app.name }}</td>
+                <td>{{ app_day_exec.0.0.is_due_today }} </td>
+                <td>{{ app_day_exec.1.0.is_due_today }} </td>
+                <td>{{ app_day_exec.2.0.is_due_today }} </td>
+                <td>{{ app_day_exec.3.0.is_due_today }} </td>
+                <td>{{ app_day_exec.4.0.is_due_today }} </td>
+                <td>{{ app_day_exec.5.0.is_due_today }} </td>
+                <td>{{ app_day_exec.6.0.is_due_today }} </td>
             </tr>
         {% endfor %}
     </table>

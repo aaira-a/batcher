@@ -1,7 +1,6 @@
 from django.test import TestCase
 from batch_apps.generator import *
 import datetime
-import unittest
 
 
 class ExecutionsViewTest(TestCase):
@@ -39,7 +38,6 @@ class WeeklyExecutionsViewTest(TestCase):
         response = self.client.get('/executions/week/2014-10-30/extra')
         self.assertEqual(response.status_code, 404)
 
-    @unittest.skip("Experimenting with weekly view, skipping atm")
     def test_weekly_execution_view_should_render_for_correct_date_context(self):
         response = self.client.get('/executions/week/2014-10-30/')
         self.assertContains(response, "Oct. 24, 2014")
