@@ -74,9 +74,17 @@ def get_day_of_month_from_string(monthly_date_string):
 
 def generate_one_week_date(week_ending_date_string):
     dates_backward = []
-    dates_backward.append(datetime.datetime.strptime(week_ending_date_string, "%Y-%m-%d").date())
+    dates_backward.append(date_from_str(week_ending_date_string))
 
     for i in range(1, 7):
         dates_backward.append(dates_backward[0] - datetime.timedelta(days=i))
 
     return dates_backward[::-1]
+
+
+def date_from_str(yyyy_mm_dd):
+    return datetime.datetime.strptime(yyyy_mm_dd, "%Y-%m-%d").date()
+
+
+def date_to_str(date):
+    return date.strftime("%Y-%m-%d")

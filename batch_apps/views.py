@@ -2,21 +2,21 @@ from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from batch_apps.models import App, Execution
 from batch_apps.generator import *
-import datetime
+
+
+def today():
+    return get_current_date_in_gmt8()
 
 
 def index(request):
-
-    today = get_current_date_in_gmt8().strftime("%Y-%m-%d")
-    return specific_date(request, today)
+    return specific_date(request, date_to_str(today()))
 
 
 def specific_date(request, yyyy_mm_dd):
 
-    today = get_current_date_in_gmt8()
-    date_ = datetime.datetime.strptime(yyyy_mm_dd, "%Y-%m-%d").date()
+    date_ = date_from_str(yyyy_mm_dd)
 
-    if date_ > today:
+    if date_ > today():
         return HttpResponseNotFound("<h1>Page not found - Can not show date more than today</h1>")
 
     else:
@@ -33,10 +33,9 @@ def specific_date(request, yyyy_mm_dd):
 
 def one_week_view(request, yyyy_mm_dd):
 
-    today = get_current_date_in_gmt8()
-    date_ = datetime.datetime.strptime(yyyy_mm_dd, "%Y-%m-%d").date()
+    date_ = date_from_str(yyyy_mm_dd)
 
-    if date_ > today:
+    if date_ > today():
         return HttpResponseNotFound("<h1>Page not found - Can not show date more than today</h1>")
 
     else:

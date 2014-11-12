@@ -2,6 +2,7 @@ from django.test import TestCase
 from batch_apps.generator import *
 from batch_apps.models import App
 from pytz import timezone
+import datetime
 
 
 def today():
@@ -23,6 +24,14 @@ class GenerateDayTest(TestCase):
         day_existing = today()
         day_new = today()
         self.assertEqual(day_existing, day_new)
+
+    def test_date_from_str_should_return_date_object_from_iso_format_string(self):
+        expected_date_object = datetime.datetime.strptime('2014-11-25', "%Y-%m-%d").date()
+        self.assertEqual(date_from_str('2014-11-25'), expected_date_object)
+
+    def test_date_to_str_should_return_iso_format_string_from_date_object(self):
+        date_object = datetime.datetime.strptime('2014-11-27', "%Y-%m-%d").date()
+        self.assertEqual(date_to_str(date_object), '2014-11-27')
 
 
 class GenerateWeekTest(TestCase):
