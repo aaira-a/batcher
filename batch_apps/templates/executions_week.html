@@ -26,13 +26,13 @@
         {% for app_day_exec in execution_matrix %}
             <tr>
                 <td>{{ app_day_exec.0.0.app.name }}</td>
-                <td>{{ app_day_exec.0.0.is_due_today }} </td>
-                <td>{{ app_day_exec.1.0.is_due_today }} </td>
-                <td>{{ app_day_exec.2.0.is_due_today }} </td>
-                <td>{{ app_day_exec.3.0.is_due_today }} </td>
-                <td>{{ app_day_exec.4.0.is_due_today }} </td>
-                <td>{{ app_day_exec.5.0.is_due_today }} </td>
-                <td>{{ app_day_exec.6.0.is_due_today }} </td>
+                <td>{{ app_day_exec.0.0.is_due_today }}</td>
+                <td>{{ app_day_exec.1.0.is_due_today }}</td>
+                <td>{{ app_day_exec.2.0.is_due_today }}</td>
+                <td>{{ app_day_exec.3.0.is_due_today }}</td>
+                <td>{{ app_day_exec.4.0.is_due_today }}</td>
+                <td>{{ app_day_exec.5.0.is_due_today }}</td>
+                <td>{{ app_day_exec.6.0.is_due_today }}</td>
             </tr>
         {% endfor %}
     </table>

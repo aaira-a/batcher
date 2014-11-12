@@ -1,4 +1,5 @@
 from django.test import TestCase
+from batch_apps.models import App
 from batch_apps.generator import *
 import datetime
 
@@ -53,3 +54,12 @@ class WeeklyExecutionsViewTest(TestCase):
         tomorrow = today + datetime.timedelta(days=1)
         response = self.client.get('/executions/week/' + tomorrow.strftime("%Y-%m-%d") + '/')
         self.assertEqual(response.status_code, 404)
+
+    def test_weekly_executions_view_should_render_app_due_status_for_whole_week(self):
+        app1 = App.objects.create(name='Daily App 001', is_active=True, frequency='daily')
+        app2 = App.objects.create(name='Weekly App 001', is_active=True, frequency='weekly - wednesdays')
+        response = self.client.get('/executions/week/2014-10-25/')
+        self.assertContains(response, 'Daily App 001')
+        self.assertContains(response, 'Weekly App 001')
+        self.assertContains(response, 'True', count=8)
+        self.assertContains(response, 'False', count=6)
