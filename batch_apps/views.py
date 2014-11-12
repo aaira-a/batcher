@@ -46,7 +46,7 @@ def one_week_view(request, yyyy_mm_dd):
             active_apps = App.objects.filter(is_active=True)
             get_or_create_execution_objects(day_object, active_apps)
 
-        executions_list = Execution.objects.filter(day__date=dates[0])
+        executions_list = Execution.objects.filter(day__date__range=(dates[0], dates[6]))
 
         context = {'dates': dates, 'executions_list': executions_list}
         return render(request, 'executions_week.html', context)

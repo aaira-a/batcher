@@ -14,19 +14,20 @@
         <thead>
             <tr>
                 <td>App</td>
-                <td>{{ dates.0 }}</td>
-                <td>{{ dates.1 }}</td>
-                <td>{{ dates.2 }}</td>
-                <td>{{ dates.3 }}</td>
-                <td>{{ dates.4 }}</td>
-                <td>{{ dates.5 }}</td>
-                <td>{{ dates.6 }}</td>
+                <td>Date</td>
+                <td>Frequency</td>
+                <td>Is Due Today</td>
+                <td>Is executed</td>
             </tr>
         </thead>
 
         {% for execution in executions_list %}
             <tr>
                 <td>{{ execution.app }}</td>
+                <td>{{ execution.day }}</td>
+                <td>{{ execution.app.frequency }}</td>
+                <td>{{ execution.is_due_today }}</td>
+                <td>{{ execution.is_executed }}</td>
             </tr>
         {% endfor %}
     </table>
