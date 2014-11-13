@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Javascript tests</title>
+    <link rel="stylesheet" href="qunit-1.15.0.css">
+</head>
+
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture">
+        <table>
+            <tr>
+                <td class="is_due_True is_executed_True"></td>
+                <td class="is_due_True is_executed_False"></td>
+                <td class="is_due_False is_executed_True"></td>
+                <td class="is_due_False is_executed_False"></td>
+            </tr>
+        </table>
+    </div>
+
+    <script src="qunit-1.15.0.js"></script>
+    <script src="../jquery-2.1.1.min.js"></script>
+    <script src="../cells.js"></script>
+    <script>
+/*global $, test, equal */
+
+test("cell with is_due_True and is_executed_True should be applied green class", function () {
+equal($(".is_due_True.is_executed_True").hasClass("green"), true);
+});
+
+test("cell with is_due_True and is_executed_False should be applied red class", function () {
+equal($(".is_due_True.is_executed_False").hasClass("red"), true);
+});
+
+test("cell with is_due_False and is_executed_True should be applied yellow class", function () {
+equal($(".is_due_False.is_executed_True").hasClass("yellow"), true);
+});
+
+test("cell with is_due_False and is_executed_False should be applied gray class", function () {
+equal($(".is_due_False.is_executed_False").hasClass("gray"), true);
+});
+
+    </script>
+
+</body>
+</html>

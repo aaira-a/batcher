@@ -2,6 +2,7 @@
 
 <script src="{% static 'jquery-2.1.1.min.js' %}"></script>
 <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'cells.js' %}"></script>
 <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 <link rel="stylesheet" href="{% static 'styles.css' %}">
 
@@ -40,12 +41,3 @@
 </div>
 
 <div class="container"> &nbsp </div>
-
-<script>
-$(document).ready(function(){
-    $(".is_due_True.is_executed_True").addClass("green");
-    $(".is_due_True.is_executed_False").addClass("red");
-    $(".is_due_False.is_executed_True").addClass("yellow");
-    $(".is_due_False.is_executed_False").addClass("gray");
-});
-</script>
