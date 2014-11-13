@@ -1,7 +1,15 @@
-.blue {
-	background-color: #66CCFF;
+.gray {
+	background-color: #B4B4B4;
 }
 
-.gray {
-	background-color: #CCCCCC;
+.green {
+	background-color: #00FF33;
+}
+
+.red {
+	background-color: #FF0033;
+}
+
+.yellow {
+	background-color: #FFFF33;
 }
