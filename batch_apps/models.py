@@ -34,13 +34,13 @@ APP_CATEGORY_CHOICES = (
 
 class App(models.Model):
 
-    name = models.CharField(max_length=500)
+    name = models.CharField(max_length=128)
     is_active = models.BooleanField(default=False)
     description = models.TextField(max_length=500, default='', blank=True)
-    frequency = models.CharField(max_length=500, choices=FREQUENCY_CHOICES, default='', blank=True)
-    repo = models.CharField(max_length=500, default='', blank=True)
-    country = models.CharField(max_length=500, choices=COUNTRY_CHOICES, default='', blank=True)
-    category = models.CharField(max_length=500, choices=APP_CATEGORY_CHOICES, default='', blank=True)
+    frequency = models.CharField(max_length=64, choices=FREQUENCY_CHOICES, default='', blank=True)
+    repo = models.CharField(max_length=128, default='', blank=True)
+    country = models.CharField(max_length=16, choices=COUNTRY_CHOICES, default='', blank=True)
+    category = models.CharField(max_length=16, choices=APP_CATEGORY_CHOICES, default='', blank=True)
 
     def __str__(self):
         return self.name
@@ -49,7 +49,7 @@ class App(models.Model):
 class Pattern(models.Model):
 
     app = models.ForeignKey(App)
-    name_pattern = models.CharField(max_length=500)
+    name_pattern = models.CharField(max_length=128)
     is_capturing_date = models.BooleanField(default=False)
     date_pattern = models.CharField(max_length=64, choices=DATE_PATTERNS, default='', blank=True)
     is_active = models.BooleanField(default=False)
