@@ -134,3 +134,7 @@ class GenerateExecutionTest(TestCase):
 
     def test_get_day_of_month_from_string(self):
         self.assertEqual(get_day_of_month_from_string('01'), '01')
+
+    def test_get_day_name_from_date(self):
+        date = datetime.date(2014, 11, 26)
+        self.assertEqual(date_to_dayname(date), 'Wednesday')

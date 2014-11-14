@@ -41,13 +41,13 @@ class WeeklyExecutionsViewTest(TestCase):
 
     def test_weekly_execution_view_should_render_for_correct_date_context(self):
         response = self.client.get('/executions/week/2014-10-30/')
-        self.assertContains(response, "Oct. 24, 2014")
-        self.assertContains(response, "Oct. 25, 2014")
-        self.assertContains(response, "Oct. 26, 2014")
-        self.assertContains(response, "Oct. 27, 2014")
-        self.assertContains(response, "Oct. 28, 2014")
-        self.assertContains(response, "Oct. 29, 2014")
-        self.assertContains(response, "Oct. 30, 2014")
+        self.assertContains(response, "2014-10-24")
+        self.assertContains(response, "2014-10-25")
+        self.assertContains(response, "2014-10-26")
+        self.assertContains(response, "2014-10-27")
+        self.assertContains(response, "2014-10-28")
+        self.assertContains(response, "2014-10-29")
+        self.assertContains(response, "2014-10-30")
 
     def test_weekly_execution_view_should_return_404_for_date_more_than_today(self):
         today = get_current_date_in_gmt8()

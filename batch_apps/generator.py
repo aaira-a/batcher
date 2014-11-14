@@ -89,9 +89,21 @@ def generate_one_week_date(week_ending_date_string):
     return dates_backward[::-1]
 
 
+def generate_one_week_date_string(week_ending_date_string):
+    datestrings = []
+    dates = generate_one_week_date(week_ending_date_string)
+    for date in dates:
+        datestrings.append(date_to_str(date) + "\r" + date_to_dayname(date))
+    return datestrings
+
+
 def date_from_str(yyyy_mm_dd):
     return datetime.datetime.strptime(yyyy_mm_dd, "%Y-%m-%d").date()
 
 
 def date_to_str(date):
     return date.strftime("%Y-%m-%d")
+
+
+def date_to_dayname(date):
+    return date.strftime("%A")
