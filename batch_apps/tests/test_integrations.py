@@ -79,7 +79,7 @@ class EmailExecutionAppPatternMatcherTest(TestCase):
         self.assertFalse(email.processed_batch_apps)
         self.assertFalse(email.matched_batch_apps)
 
-        execute_end_to_end_tasks_on_date(datetime.date(2014, 10, 20))
+        execute_end_to_end_tasks(datetime.date(2014, 10, 20))
 
         email_recheck = Message.objects.get(message_id="<CAFKhJv21JtjnT74zzsrRuOwyEU1=1bnz2mzKV8e0_DAw0U46KA@mail.gmail.com>")
         self.assertEqual(email_recheck, email)
@@ -91,7 +91,7 @@ class EmailExecutionAppPatternMatcherTest(TestCase):
         self.assertEqual(execution_recheck.email, email)
 
     def test_execute_end_to_end_module_should_default_to_today_if_date_is_not_given(self):
-        execute_end_to_end_tasks_on_date()
+        execute_end_to_end_tasks()
         day = Day.objects.get(pk=1)
         self.assertEqual(len(Day.objects.all()), 1)
         self.assertEqual(get_current_date_in_gmt8(), day.date)

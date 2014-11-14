@@ -1,15 +1,15 @@
-from batch_apps.models import App
 from django_mailbox.models import Message
 from batch_apps.generator import *
 from batch_apps.matcher import *
 
 
-def execute_end_to_end_tasks_on_date(date_=get_current_date_in_gmt8()):
-    day_object = get_or_create_day_object(date_)
-    active_apps = App.objects.filter(is_active=True)
-    get_or_create_execution_objects(day_object, active_apps)
-    executions_due = Execution.objects.filter(day__date=date_, is_due_today=True)
+def execute_end_to_end_tasks(date_=get_current_date_in_gmt8()):
+    generate_and_return_active_apps_execution_objects(date_)
+    process_emails(date_)
 
+
+def process_emails(date_):
+    executions_due = Execution.objects.filter(day__date=date_, is_due_today=True)
     emails = Message.objects.filter(sent_time__contains=date_)
 
     for email in emails:
