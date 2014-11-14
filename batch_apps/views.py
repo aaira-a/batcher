@@ -13,7 +13,6 @@ def index(request):
 
 
 def specific_date(request, yyyy_mm_dd):
-
     date_ = date_from_str(yyyy_mm_dd)
 
     if date_ > today():
@@ -26,29 +25,32 @@ def specific_date(request, yyyy_mm_dd):
 
 
 def one_week_view(request, yyyy_mm_dd):
-
     date_ = date_from_str(yyyy_mm_dd)
 
     if date_ > today():
         return HttpResponseNotFound("<h1>Page not found - Can not show date more than today</h1>")
 
     else:
+        execution_matrix = construct_weekly_execution_matrix(yyyy_mm_dd)
         dates = generate_one_week_date(yyyy_mm_dd)
-
-        for date in dates:
-            generate_and_return_active_apps_execution_objects(date)
-
-        execution_matrix = []
-
-        active_apps = App.objects.filter(is_active=True)
-
-        for app in active_apps:
-            app_executions_for_a_week = []
-
-            for date in dates:
-                app_executions_for_a_week.append(Execution.objects.filter(app=app, day__date=date))
-
-            execution_matrix.append(app_executions_for_a_week)
-
         context = {'dates': dates, 'execution_matrix': execution_matrix}
         return render(request, 'executions_week.html', context)
+
+
+def construct_weekly_execution_matrix(yyyy_mm_dd):
+    execution_matrix = []
+
+    dates = generate_one_week_date(yyyy_mm_dd)
+    for date in dates:
+        generate_and_return_active_apps_execution_objects(date)
+
+    active_apps = App.objects.filter(is_active=True)
+    for app in active_apps:
+        app_executions_for_a_week = []
+
+        for date in dates:
+            app_executions_for_a_week.append(Execution.objects.filter(app=app, day__date=date))
+
+        execution_matrix.append(app_executions_for_a_week)
+
+    return execution_matrix
