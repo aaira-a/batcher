@@ -21,7 +21,6 @@ def get_or_create_day_object(date_):
 
 
 def get_or_create_execution_objects(day_, applist):
-
     executions = []
 
     for app in applist:
@@ -34,7 +33,6 @@ def get_or_create_execution_objects(day_, applist):
 
 
 def get_or_create_execution_object(day_, app_):
-
     if app_.is_active is True:
         execution, is_new = Execution.objects.get_or_create(day=day_, app=app_, is_due_today=app_due_today(app_, day_.date))
         return execution
@@ -44,7 +42,6 @@ def get_or_create_execution_object(day_, app_):
 
 
 def app_due_today(app, date):
-
     if app.frequency == 'daily':
         return True
 
@@ -59,7 +56,6 @@ def app_due_today(app, date):
 
 
 def get_day_of_week_from_string(weekly_date_string):
-
     day_list = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
     for day in day_list:
@@ -68,7 +64,6 @@ def get_day_of_week_from_string(weekly_date_string):
 
 
 def get_day_of_month_from_string(monthly_date_string):
-
     day_list = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
                 '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
                 '21', '22', '23', '24', '25', '26', '27', '18', '20', '30', '31',
@@ -92,6 +87,7 @@ def generate_one_week_date(week_ending_date_string):
 def generate_one_week_date_string(week_ending_date_string):
     datestrings = []
     dates = generate_one_week_date(week_ending_date_string)
+
     for date in dates:
         datestrings.append(date_to_str(date) + "\r" + date_to_dayname(date))
     return datestrings
