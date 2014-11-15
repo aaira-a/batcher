@@ -1,10 +1,11 @@
 from django_mailbox.models import Message
+from batch_apps.models import Execution
 from batch_apps.generator import *
 from batch_apps.matcher import *
 
 
 def execute_end_to_end_tasks(date_=get_current_date_in_gmt8()):
-    generate_and_return_active_apps_execution_objects(date_)
+    Execution.objects.generate_and_return_active_apps_execution_objects(date_)
     process_emails(date_)
 
 

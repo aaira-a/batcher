@@ -66,12 +66,76 @@ class Day(models.Model):
         return self.date.strftime("%Y-%m-%d")
 
 
+class ExecutionManager(models.Manager):
+
+    def generate_and_return_active_apps_execution_objects(self, date_):
+        day = self.get_or_create_day_object(date_)
+        active_apps = App.objects.filter(is_active=True)
+        executions = self.get_or_create_execution_objects(day, active_apps)
+        return executions
+
+    def get_or_create_day_object(self, date_):
+        day, is_new = Day.objects.get_or_create(date=date_)
+        return day
+
+    def get_or_create_execution_objects(self, day_, applist):
+        executions = []
+
+        for app in applist:
+            execution = self.get_or_create_execution_object(day_, app)
+            executions.append(execution)
+
+        executions_strip_none = [x for x in executions if x is not None]
+
+        return executions_strip_none
+
+    def get_or_create_execution_object(self, day_, app_):
+        if app_.is_active is True:
+            execution, is_new = Execution.objects.get_or_create(day=day_, app=app_, is_due_today=self.app_due_today(app_, day_.date))
+            return execution
+
+        else:
+            return None
+
+    def app_due_today(self, app, date):
+        if app.frequency == 'daily':
+            return True
+
+        elif 'weekly' in app.frequency:
+            return date.strftime("%A") == self.get_day_of_week_from_string(app.frequency)
+
+        elif 'monthly' in app.frequency:
+            return date.strftime("%d") == self.get_day_of_month_from_string(app.frequency)
+
+        else:
+            return False
+
+    def get_day_of_week_from_string(self, weekly_date_string):
+        day_list = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+        for day in day_list:
+            if day.lower() in weekly_date_string.lower():
+                return day
+
+    def get_day_of_month_from_string(self, monthly_date_string):
+        day_list = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
+                    '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+                    '21', '22', '23', '24', '25', '26', '27', '18', '20', '30', '31',
+                    ]
+
+        for day in day_list:
+            if day in monthly_date_string:
+                return day
+
+
 class Execution(models.Model):
     day = models.ForeignKey(Day)
     app = models.ForeignKey(App)
     email = models.ForeignKey(Message, null=True)
     is_executed = models.BooleanField(default=False)
     is_due_today = models.BooleanField(default=False)
+
+    objects = ExecutionManager()
 
     def __str__(self):
 

@@ -19,7 +19,7 @@ def specific_date(request, yyyy_mm_dd):
         return HttpResponseNotFound("<h1>Page not found - Can not show date more than today</h1>")
 
     else:
-        executions_list = generate_and_return_active_apps_execution_objects(date_)
+        executions_list = Execution.objects.generate_and_return_active_apps_execution_objects(date_)
         context = {'date': date_, 'executions_list': executions_list}
         return render(request, 'executions.html', context)
 
@@ -42,7 +42,7 @@ def construct_weekly_execution_matrix(yyyy_mm_dd):
 
     dates = generate_one_week_date(yyyy_mm_dd)
     for date in dates:
-        generate_and_return_active_apps_execution_objects(date)
+        Execution.objects.generate_and_return_active_apps_execution_objects(date)
 
     active_apps = App.objects.filter(is_active=True)
     for app in active_apps:
