@@ -6,36 +6,34 @@ Currently developed using Django 1.7 on Python 3.4.
 
 Setup steps for development:
 
-- Install Python 3.4 & pip, add paths accordingly
+- Install Python 3.4, pip, virtualenv and add paths accordingly
 
-- Install Django package from PyPI
-
-```
-pip install django
-```
-
-- Install [django_mailbox](https://github.com/coddingtonbear/django-mailbox) package from PyPI
+- In virtualenv session, install required packages from requirements.txt
 
 ```
-pip install django_mailbox
+pip install -r requirements.txt
 ```
 
-- Apply migrations from project folder
+- Replace admin.py and models.py in django_mailbox installation from requirements.txt with the files in /patches/ folder
+
+- Delete all migrations from django_mailbox installation from requirements.txt with the migration files in the /patches/ folder
+
+- Apply migrations
 
 ```
 python manage.py migrate
-```
-
-- Run development server
-
-```
-python manage.py runserver
 ```
 
 - Create an admin
 
 ```
 python manage.py createsuperuser
+```
+
+- Run development server
+
+```
+python manage.py runserver
 ```
 
 - Add a development mailbox in Django_Mailbox app
