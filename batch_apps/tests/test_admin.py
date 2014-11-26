@@ -12,12 +12,17 @@ request = MockRequest()
 
 class AppAdminTest(TestCase):
 
-    def test_activate_apps_admin_action_should_return_activated(self):
-        app_admin = AppAdmin(App, AdminSite())
-        queryset = app_admin.get_queryset(request)
-        self.assertEqual(app_admin.activate_apps(request, queryset), 'activated')
+    def setUp(self):
+        self.app_admin = AppAdmin(App, AdminSite())
 
-    def test_deactivate_apps_admin_action_should_return_deactivated(self):
-        app_admin = AppAdmin(App, AdminSite())
-        queryset = app_admin.get_queryset(request)
-        self.assertTrue(app_admin.deactivate_apps(request, queryset), 'deactivated')
+    def test_activate_apps_should_activate_inactive_app(self):
+        app1 = App.objects.create(name='Inactive App 001', is_active=False)
+        queryset = App.objects.filter(pk=1)
+        self.app_admin.activate_apps(request, queryset)
+        self.assertTrue(App.objects.get(pk=1).is_active)
+
+    def test_deactivate_apps_should_deactivate_active_app(self):
+        app1 = App.objects.create(name='Active App 001', is_active=True)
+        queryset = App.objects.filter(pk=1)
+        self.app_admin.deactivate_apps(request, queryset)
+        self.assertFalse(App.objects.get(pk=1).is_active)
