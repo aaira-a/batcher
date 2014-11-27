@@ -138,3 +138,45 @@ class EmailFilteringTest(TestCase):
         results = get_unprocessed_unmatched_emails(date_)
         self.assertIn(email1, results)
         self.assertNotIn(email2, results)
+
+
+class ExecutionFilteringTest(TestCase):
+
+    def test_get_due_executions_should_return_executions_with_correct_date(self):
+        app1 = App.objects.create(name="My App 001")
+        day1 = Day.objects.create(date=datetime.date(2014, 10, 20))
+        day2 = Day.objects.create(date=datetime.date(2014, 10, 21))
+
+        execution1 = Execution.objects.create(day=day1, app=app1, is_executed=False, is_due_today=True)
+        execution2 = Execution.objects.create(day=day2, app=app1, is_executed=False, is_due_today=True)
+
+        date_ = datetime.date(2014, 10, 20)
+        results = get_unexecuted_due_executions(date_)
+        self.assertIn(execution1, results)
+        self.assertNotIn(execution2, results)
+
+    def test_get_due_executions_should_return_executions_due_on_the_date(self):
+        app1 = App.objects.create(name="My App 001")
+        app2 = App.objects.create(name="My App 002")
+        day = Day.objects.create(date=datetime.date(2014, 10, 20))
+
+        execution1 = Execution.objects.create(day=day, app=app1, is_executed=False, is_due_today=True)
+        execution2 = Execution.objects.create(day=day, app=app2, is_executed=False, is_due_today=False)
+
+        date_ = datetime.date(2014, 10, 20)
+        results = get_unexecuted_due_executions(date_)
+        self.assertIn(execution1, results)
+        self.assertNotIn(execution2, results)
+
+    def test_get_due_executions_should_return_unexecuted_executions(self):
+        app1 = App.objects.create(name="My App 001")
+        app2 = App.objects.create(name="My App 002")
+        day = Day.objects.create(date=datetime.date(2014, 10, 20))
+
+        execution1 = Execution.objects.create(day=day, app=app1, is_executed=False, is_due_today=True)
+        execution2 = Execution.objects.create(day=day, app=app2, is_executed=True, is_due_today=True)
+
+        date_ = datetime.date(2014, 10, 20)
+        results = get_unexecuted_due_executions(date_)
+        self.assertIn(execution1, results)
+        self.assertNotIn(execution2, results)
