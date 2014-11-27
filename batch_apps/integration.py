@@ -11,7 +11,7 @@ def execute_end_to_end_tasks(date_=get_current_date_in_gmt8()):
 
 def process_emails(date_):
     executions_due = Execution.objects.filter(day__date=date_, is_due_today=True)
-    emails = Message.objects.filter(sent_time__contains=date_)
+    emails = get_unprocessed_unmatched_emails(date_)
 
     for email in emails:
         for execution in executions_due:
@@ -25,3 +25,9 @@ def process_emails(date_):
 
             email.processed_batch_apps = True
             email.save()
+
+
+def get_unprocessed_unmatched_emails(date_):
+    return Message.objects.filter(sent_time__contains=date_,
+                                  processed_batch_apps=False,
+                                  matched_batch_apps=False)

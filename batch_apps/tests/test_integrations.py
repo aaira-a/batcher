@@ -93,3 +93,48 @@ class EmailExecutionAppPatternMatcherTest(TestCase):
         day = Day.objects.get(pk=1)
         self.assertEqual(len(Day.objects.all()), 1)
         self.assertEqual(get_current_date_in_gmt8(), day.date)
+
+
+class EmailFilteringTest(TestCase):
+
+    fixtures = ['test_messages.json']
+
+    def test_get_unprocessed_unmatched_emails_should_return_unprocessed_emails(self):
+        email1 = Message.objects.get(message_id="<CAFKhJv2VAg2jx7o+Y+Kz_Ze72m7PAPq0Q8QjhC7_J+OVVnUvvg@mail.gmail.com>")
+        email2 = Message.objects.get(message_id="<CAFKhJv1ugtTL=ji5_JxZ9KwVxfqi_haYpGb+wJrekW7RUx0pRw@mail.gmail.com>")
+
+        email2.processed_batch_apps = True
+        email2.save()
+
+        self.assertFalse(email1.processed_batch_apps)
+        self.assertTrue(email2.processed_batch_apps)
+
+        results = get_unprocessed_unmatched_emails(datetime.date(2014, 10, 20))
+        self.assertIn(email1, results)
+        self.assertNotIn(email2, results)
+
+    def test_get_unprocessed_unmatched_emails_should_return_unmatched_emails(self):
+        email1 = Message.objects.get(message_id="<CAFKhJv21JtjnT74zzsrRuOwyEU1=1bnz2mzKV8e0_DAw0U46KA@mail.gmail.com>")
+        email2 = Message.objects.get(message_id="<CAFKhJv18p+O28UB2nQT1cTKL437GFM7SJpK=30x5j7+dNRtD7A@mail.gmail.com>")
+
+        email2.matched_batch_apps = True
+        email2.save()
+
+        self.assertFalse(email1.matched_batch_apps)
+        self.assertTrue(email2.matched_batch_apps)
+
+        results = get_unprocessed_unmatched_emails(datetime.date(2014, 10, 20))
+        self.assertIn(email1, results)
+        self.assertNotIn(email2, results)
+
+    def test_get_unprocessed_unmatched_emails_should_return_emails_with_correct_date(self):
+        email1 = Message.objects.get(message_id="<CAFKhJv0yhRMvdqF9JGabbHDH2Esw86Q9OZ40B52-y=MPLCyYBg@mail.gmail.com>")
+        email2 = Message.objects.get(message_id="<CAG6WN+9O6P7arbVA=M1Mz=_9cSJ-nOL47eB2DaVYN_iJvc-9Lg@mail.gmail.com>")
+
+        email2.sent_time = datetime.datetime.now(pytz.timezone('Asia/Kuala_Lumpur'))
+        email2.save()
+
+        date_ = datetime.date(2014, 10, 20)
+        results = get_unprocessed_unmatched_emails(date_)
+        self.assertIn(email1, results)
+        self.assertNotIn(email2, results)
