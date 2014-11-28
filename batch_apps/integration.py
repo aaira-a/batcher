@@ -34,6 +34,8 @@ def get_unexecuted_due_executions(date_):
 
 
 def get_unprocessed_unmatched_emails(date_):
-    return Message.objects.filter(sent_time__contains=date_,
+    return Message.objects.filter(sent_time__year=date_.year,
+                                  sent_time__month=date_.month,
+                                  sent_time__day=date_.day,
                                   processed_batch_apps=False,
                                   matched_batch_apps=False)
