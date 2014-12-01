@@ -3,6 +3,7 @@ import re
 
 
 def match_subject(regex, text):
+    regex = str(regex).replace("(", "\\(").replace(")", "\\)")
     return bool(re.search(str(regex), str(text)))
 
 

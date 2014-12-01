@@ -15,6 +15,11 @@ class RegularExpressionTest(TestCase):
         email_subject = 'Batch App - SGEnquiryNotify sendEnquiryNotify 3 days'
         self.assertTrue(match_subject(regex_rule, email_subject))
 
+    def test_matcher_should_match_subjects_with_parentheses(self):
+        regex_rule = 'Batch App (internal) and (external) Report'
+        email_subject = 'Batch App (internal) and (external) Report'
+        self.assertTrue(match_subject(regex_rule, email_subject))
+
     def test_captured_execution_date_from_email_subject_should_return_formatted_date(self):
         email_subject = 'Random App (20/10/2014)'
         self.assertEqual(capture_date(email_subject), '2014-10-20')
