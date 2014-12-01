@@ -41,7 +41,3 @@ class GenerateWeekTest(TestCase):
         self.assertEqual(dates[4].strftime("%Y-%m-%d"), '2014-11-01')
         self.assertEqual(dates[5].strftime("%Y-%m-%d"), '2014-11-02')
         self.assertEqual(dates[6].strftime("%Y-%m-%d"), '2014-11-03')
-
-    def test_get_day_name_from_date(self):
-        date = datetime.date(2014, 11, 26)
-        self.assertEqual(date_to_dayname(date), 'Wednesday')

@@ -32,7 +32,7 @@ def one_week_view(request, yyyy_mm_dd):
 
     else:
         execution_matrix = construct_weekly_execution_matrix(yyyy_mm_dd)
-        dates = generate_one_week_date_string(yyyy_mm_dd)
+        dates = generate_one_week_date(yyyy_mm_dd)
         context = {'dates': dates, 'execution_matrix': execution_matrix}
         return render(request, 'executions_week.html', context)
 
