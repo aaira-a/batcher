@@ -24,7 +24,9 @@
 
         {% for execution in executions_list %}
             <tr>
-                <td class="is_due_{{ execution.is_due_today }} is_executed_{{ execution.is_executed }}">{{ execution.app }}</td>
+                <td class="is_due_{{ execution.is_due_today }} is_executed_{{ execution.is_executed }}">
+                    <a href="{% url 'admin:batch_apps_app_change' execution.app.id %}">{{ execution.app }}</a>
+                </td>
                 <td class="is_due_{{ execution.is_due_today }} is_executed_{{ execution.is_executed }}">{{ execution.app.frequency }}</td>
                 <td class="is_due_{{ execution.is_due_today }} is_executed_{{ execution.is_executed }}">{{ execution.is_due_today }}</td>
                 <td class="is_due_{{ execution.is_due_today }} is_executed_{{ execution.is_executed }}">{{ execution.is_executed }}</td>
