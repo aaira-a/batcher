@@ -131,7 +131,7 @@ class ExecutionManager(models.Manager):
 class Execution(models.Model):
     day = models.ForeignKey(Day)
     app = models.ForeignKey(App)
-    email = models.ForeignKey(Message, null=True)
+    email = models.ForeignKey(Message, null=True, blank=True)
     is_executed = models.BooleanField(default=False)
     is_due_today = models.BooleanField(default=False)
 
