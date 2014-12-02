@@ -2,6 +2,7 @@ from django.contrib import admin
 from batch_apps.models import App, Pattern, Day, Execution
 from django.db import models
 from django.forms import TextInput
+from batch_apps.integration import *
 
 
 class PatternInline(admin.TabularInline):
@@ -43,8 +44,15 @@ class ExecutionInline(admin.TabularInline):
 
 
 class DayAdmin(admin.ModelAdmin):
+    actions = ['execute_end_to_end_tasks_on_day']
     model = Day
     inlines = [ExecutionInline]
+
+    def execute_end_to_end_tasks_on_day(self, request, queryset):
+        for day in queryset:
+            execute_end_to_end_tasks(day.date)
+    execute_end_to_end_tasks_on_day.short_description = "Generate objects and process emails"
+
 
 admin.site.register(App, AppAdmin)
 admin.site.register(Day, DayAdmin)
