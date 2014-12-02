@@ -10,14 +10,18 @@
 
     <img src="{% static 'image.png' %}"/>
 
-    <h1> List of executions due for week ending {{ dates.6|date:"l, d F Y" }}</h1>
+    <h1> Executions for week ending {{ dates.6|date:"l, d F Y" }}</h1>
 
     <table class="table-bordered table-striped table-hover table-condensed">
         <thead>
             <tr>
                 <td>App</td>
                 {% for date in dates %}
-                    <td>{{ date|date:"Y-m-d" }}<br>{{ date|date:"l"}}</td>
+                    <td>
+                        <a href="{% url 'batch_apps.views.specific_date' date|date:"Y-m-d" %}">
+                            {{ date|date:"Y-m-d" }}<br>{{ date|date:"l"}}
+                        </a>
+                    </td>
                 {% endfor %}
             </tr>
         </thead>
