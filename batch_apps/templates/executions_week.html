@@ -16,27 +16,22 @@
         <thead>
             <tr>
                 <td>App</td>
-                <td>{{ dates.0|date:"Y-m-d" }}<br>{{ dates.0|date:"l"}}</td>
-                <td>{{ dates.1|date:"Y-m-d" }}<br>{{ dates.1|date:"l"}}</td>
-                <td>{{ dates.2|date:"Y-m-d" }}<br>{{ dates.2|date:"l"}}</td>
-                <td>{{ dates.3|date:"Y-m-d" }}<br>{{ dates.3|date:"l"}}</td>
-                <td>{{ dates.4|date:"Y-m-d" }}<br>{{ dates.4|date:"l"}}</td>
-                <td>{{ dates.5|date:"Y-m-d" }}<br>{{ dates.5|date:"l"}}</td>
-                <td>{{ dates.6|date:"Y-m-d" }}<br>{{ dates.6|date:"l"}}</td>
+                {% for date in dates %}
+                    <td>{{ date|date:"Y-m-d" }}<br>{{ date|date:"l"}}</td>
+                {% endfor %}
             </tr>
         </thead>
+
         {% for app_day_exec in execution_matrix %}
             <tr>
                 <td>{{ app_day_exec.0.0.app.name }}</td>
-                <td class="is_due_{{ app_day_exec.0.0.is_due_today }} is_executed_{{ app_day_exec.0.0.is_executed }}"></td>
-                <td class="is_due_{{ app_day_exec.1.0.is_due_today }} is_executed_{{ app_day_exec.1.0.is_executed }}"></td>
-                <td class="is_due_{{ app_day_exec.2.0.is_due_today }} is_executed_{{ app_day_exec.2.0.is_executed }}"></td>
-                <td class="is_due_{{ app_day_exec.3.0.is_due_today }} is_executed_{{ app_day_exec.3.0.is_executed }}"></td>
-                <td class="is_due_{{ app_day_exec.4.0.is_due_today }} is_executed_{{ app_day_exec.4.0.is_executed }}"></td>
-                <td class="is_due_{{ app_day_exec.5.0.is_due_today }} is_executed_{{ app_day_exec.5.0.is_executed }}"></td>
-                <td class="is_due_{{ app_day_exec.6.0.is_due_today }} is_executed_{{ app_day_exec.6.0.is_executed }}"></td>
+
+                {% for day in app_day_exec %}
+                    <td class="is_due_{{ day.0.is_due_today }} is_executed_{{ day.0.is_executed }}"></td>
+                {% endfor %}
             </tr>
         {% endfor %}
+        
     </table>
 </div>
 
