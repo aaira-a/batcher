@@ -23,7 +23,7 @@ class GenerateDateTest(TestCase):
 class GenerateWeekTest(TestCase):
 
     def test_generate_week_with_date_ending_should_return_ascending_dates_list(self):
-        dates = generate_one_week_date('2014-11-11')
+        dates = generate_one_week_date(datetime.date(2014, 11, 11))
         self.assertEqual(dates[0].strftime("%Y-%m-%d"), '2014-11-05')
         self.assertEqual(dates[1].strftime("%Y-%m-%d"), '2014-11-06')
         self.assertEqual(dates[2].strftime("%Y-%m-%d"), '2014-11-07')
@@ -33,7 +33,7 @@ class GenerateWeekTest(TestCase):
         self.assertEqual(dates[6].strftime("%Y-%m-%d"), '2014-11-11')
 
     def test_generate_week_with_date_ending_should_work_across_months(self):
-        dates = generate_one_week_date('2014-11-03')
+        dates = generate_one_week_date(datetime.date(2014, 11, 3))
         self.assertEqual(dates[0].strftime("%Y-%m-%d"), '2014-10-28')
         self.assertEqual(dates[1].strftime("%Y-%m-%d"), '2014-10-29')
         self.assertEqual(dates[2].strftime("%Y-%m-%d"), '2014-10-30')

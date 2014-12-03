@@ -7,9 +7,9 @@ def get_current_date_in_gmt8():
     return current_datetime.date()
 
 
-def generate_one_week_date(week_ending_date_string):
+def generate_one_week_date(week_ending_date):
     dates_backward = []
-    dates_backward.append(date_from_str(week_ending_date_string))
+    dates_backward.append(week_ending_date)
 
     for i in range(1, 7):
         dates_backward.append(dates_backward[0] - datetime.timedelta(days=i))

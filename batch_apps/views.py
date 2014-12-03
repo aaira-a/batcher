@@ -31,16 +31,16 @@ def one_week_view(request, yyyy_mm_dd):
         return HttpResponseNotFound("<h1>Page not found - Can not show date more than today</h1>")
 
     else:
-        execution_matrix = construct_weekly_execution_matrix(yyyy_mm_dd)
-        dates = generate_one_week_date(yyyy_mm_dd)
+        execution_matrix = construct_weekly_execution_matrix(date_)
+        dates = generate_one_week_date(date_)
         context = {'dates': dates, 'execution_matrix': execution_matrix}
         return render(request, 'executions_week.html', context)
 
 
-def construct_weekly_execution_matrix(yyyy_mm_dd):
+def construct_weekly_execution_matrix(date_):
     execution_matrix = []
 
-    dates = generate_one_week_date(yyyy_mm_dd)
+    dates = generate_one_week_date(date_)
     for date in dates:
         Execution.objects.generate_and_return_active_apps_execution_objects(date)
 
