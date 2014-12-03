@@ -4,16 +4,6 @@ from django_mailbox.models import Message
 from batch_apps.integration import *
 
 
-class AppPatternMatcherTest(TestCase):
-
-    fixtures = ['test_apps.json']
-
-    def test_app_matching_single_full_subject_pattern(self):
-        app = App.objects.get(name="Batch App - SGEChannel doDevelopmentXML")
-        pattern = app.pattern_set.filter(name_pattern="Batch App - SGEChannel doDevelopmentXML")
-        self.assertTrue(app_match_full_subject(app, pattern))
-
-
 class EmailExecutionAppPatternMatcherTest(TestCase):
 
     fixtures = ['test_apps.json', 'test_messages.json']
