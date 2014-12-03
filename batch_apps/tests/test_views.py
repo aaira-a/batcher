@@ -4,7 +4,7 @@ from batch_apps.generator import *
 import datetime
 
 
-class ExecutionsViewTest(TestCase):
+class DailyExecutionsViewTest(TestCase):
 
     def test_executions_view_renders_executions_template(self):
         response = self.client.get('/executions/')
@@ -27,6 +27,11 @@ class ExecutionsViewTest(TestCase):
         tomorrow = today + datetime.timedelta(days=1)
         response = self.client.get('/executions/' + tomorrow.strftime("%Y-%m-%d") + '/')
         self.assertEqual(response.status_code, 404)
+
+    def test_execution_view_should_default_to_today_if_date_is_not_specified(self):
+        today = get_current_date_in_gmt8()
+        response = self.client.get('/executions/')
+        self.assertContains(response, today.strftime("%A, %d %B %Y"))
 
 
 class WeeklyExecutionsViewTest(TestCase):
@@ -66,3 +71,8 @@ class WeeklyExecutionsViewTest(TestCase):
         response = self.client.get('/executions/week/2014-10-25/')
         self.assertContains(response, 'Weekly App 001')
         self.assertContains(response, 'is_due_False is_executed_False', count=6)
+
+    def test_weekly_execution_view_should_default_to_today_if_date_is_not_specified(self):
+        today = get_current_date_in_gmt8()
+        response = self.client.get('/executions/week/')
+        self.assertContains(response, today.strftime("%A, %d %B %Y"))
