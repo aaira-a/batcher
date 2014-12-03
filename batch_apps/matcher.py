@@ -8,6 +8,10 @@ def match_email_subject_to_app(subject, app):
     results = []
     for pattern in pattern_list:
         results.append(match_subject(pattern, subject))
+
+        if pattern.is_capturing_date:
+            results.append(capture_date(subject, pattern.date_pattern))
+
     return all(results)
 
 

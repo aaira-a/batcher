@@ -98,3 +98,21 @@ class EmailToAppMatcherTest(TestCase):
         Pattern.objects.create(app=app_, name_pattern="XYZ", is_active=True, is_capturing_date=False)
         email_subject = "Email Subject - XYZ pattern only, no abc.upper()"
         self.assertFalse(match_email_subject_to_app(email_subject, app_))
+
+    def test_matcher_should_return_true_if_date_pattern_is_matched(self):
+        app_ = App.objects.create(name='App Identifier 004', is_active=True, frequency='daily')
+        Pattern.objects.create(app=app_, name_pattern="DEF", is_active=True, is_capturing_date=True, date_pattern="dd/mm/yyyy")
+        email_subject = "Email Subject - DEF for date 25/12/2014"
+        self.assertTrue(match_email_subject_to_app(email_subject, app_))
+
+    def test_matcher_should_return_false_if_date_pattern_is_not_present(self):
+        app_ = App.objects.create(name='App Identifier 005', is_active=True, frequency='daily')
+        Pattern.objects.create(app=app_, name_pattern="EFG", is_active=True, is_capturing_date=True, date_pattern="dd/mm/yyyy")
+        email_subject = "Email Subject - EFG but date pattern not present"
+        self.assertFalse(match_email_subject_to_app(email_subject, app_))
+
+    def test_matcher_should_return_false_if_date_pattern_is_in_different_format(self):
+        app_ = App.objects.create(name='App Identifier 005', is_active=True, frequency='daily')
+        Pattern.objects.create(app=app_, name_pattern="EFG", is_active=True, is_capturing_date=True, date_pattern="dd/mm/yyyy")
+        email_subject = "Email Subject - EFG but date pattern 25-12-2014 is wrong"
+        self.assertFalse(match_email_subject_to_app(email_subject, app_))
