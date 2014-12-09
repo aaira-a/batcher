@@ -12,7 +12,7 @@ class DailyExecutionsViewTest(TestCase):
 
     def test_executions_view_renders_executions_template(self):
         response = self.client.get(day_url, follow=True)
-        self.assertTemplateUsed(response, 'executions.html')
+        self.assertTemplateUsed(response, 'executions_day.html')
 
     def test_view_should_return_404_if_there_is_unspecified_trailing_characters(self):
         response = self.client.get(day_url + '1wh4t3v3r')
@@ -20,7 +20,7 @@ class DailyExecutionsViewTest(TestCase):
 
     def test_url_specific_execution_date_renders_execution_template(self):
         response = self.client.get(day_url + '2014-11-03/')
-        self.assertTemplateUsed(response, 'executions.html')
+        self.assertTemplateUsed(response, 'executions_day.html')
 
     def test_specific_date_execution_view_should_render_for_correct_date_context(self):
         response = self.client.get(day_url + '2014-10-25/')

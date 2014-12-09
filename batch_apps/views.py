@@ -21,7 +21,7 @@ def specific_date(request, yyyy_mm_dd=None):
     else:
         executions_list = Execution.objects.generate_and_return_active_apps_execution_objects(date_)
         context = {'date': date_, 'executions_list': executions_list}
-        return render(request, 'executions.html', context)
+        return render(request, 'executions_day.html', context)
 
 
 def one_week_view(request, yyyy_mm_dd=None):
