@@ -90,3 +90,11 @@ class WeeklyExecutionsViewTest(TestCase):
         today = get_current_date_in_gmt8()
         response = self.client.get(week_url, follow=True)
         self.assertContains(response, today.strftime("%A, %d %B %Y"))
+
+
+class IndexViewTest(TestCase):
+
+    def test_index_view_should_redirect_to_default_weekly_view(self):
+        today = get_current_date_in_gmt8()
+        response = self.client.get('/executions/', follow=True)
+        self.assertRedirects(response, week_url + date_to_str(today) + '/', status_code=301)
