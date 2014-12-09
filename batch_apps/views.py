@@ -11,7 +11,7 @@ def today():
 def specific_date(request, yyyy_mm_dd=None):
     if yyyy_mm_dd is None:
         date_ = today()
-        return redirect('/executions/' + date_to_str(date_))
+        return redirect('/executions/day/' + date_to_str(date_))
 
     date_ = date_from_str(yyyy_mm_dd)
 

@@ -7,35 +7,35 @@ import datetime
 class DailyExecutionsViewTest(TestCase):
 
     def test_executions_view_renders_executions_template(self):
-        response = self.client.get('/executions/', follow=True)
+        response = self.client.get('/executions/day/', follow=True)
         self.assertTemplateUsed(response, 'executions.html')
 
     def test_view_should_return_404_if_there_is_unspecified_trailing_characters(self):
-        response = self.client.get('/executions/1wh4t3v3r')
+        response = self.client.get('/executions/day/1wh4t3v3r')
         self.assertEqual(response.status_code, 404)
 
     def test_url_specific_execution_date_renders_execution_template(self):
-        response = self.client.get('/executions/2014-11-03/')
+        response = self.client.get('/executions/day/2014-11-03/')
         self.assertTemplateUsed(response, 'executions.html')
 
     def test_specific_date_execution_view_should_render_for_correct_date_context(self):
-        response = self.client.get('/executions/2014-10-25/')
+        response = self.client.get('/executions/day/2014-10-25/')
         self.assertContains(response, "Saturday, 25 October 2014")
 
     def test_execution_view_should_return_404_for_date_more_than_today(self):
         today = get_current_date_in_gmt8()
         tomorrow = today + datetime.timedelta(days=1)
-        response = self.client.get('/executions/' + tomorrow.strftime("%Y-%m-%d") + '/')
+        response = self.client.get('/executions/day/' + tomorrow.strftime("%Y-%m-%d") + '/')
         self.assertEqual(response.status_code, 404)
 
     def test_execution_view_should_redirect_to_today_full_date_url_if_not_specified(self):
         today = get_current_date_in_gmt8()
-        response = self.client.get('/executions/')
-        self.assertRedirects(response, '/executions/' + date_to_str(today), status_code=302, target_status_code=301)
+        response = self.client.get('/executions/day/')
+        self.assertRedirects(response, '/executions/day/' + date_to_str(today), status_code=302, target_status_code=301)
 
     def test_execution_view_should_default_to_today_if_date_is_not_specified(self):
         today = get_current_date_in_gmt8()
-        response = self.client.get('/executions/', follow=True)
+        response = self.client.get('/executions/day/', follow=True)
         self.assertContains(response, today.strftime("%A, %d %B %Y"))
 
 
