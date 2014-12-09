@@ -1,5 +1,5 @@
 from django.http import HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from batch_apps.models import App, Execution
 from batch_apps.generator import *
 
@@ -11,8 +11,9 @@ def today():
 def specific_date(request, yyyy_mm_dd=None):
     if yyyy_mm_dd is None:
         date_ = today()
-    else:
-        date_ = date_from_str(yyyy_mm_dd)
+        return redirect('/executions/' + date_to_str(date_))
+
+    date_ = date_from_str(yyyy_mm_dd)
 
     if date_ > today():
         return HttpResponseNotFound("<h1>Page not found - Can not show date more than today</h1>")
@@ -25,8 +26,9 @@ def specific_date(request, yyyy_mm_dd=None):
 def one_week_view(request, yyyy_mm_dd=None):
     if yyyy_mm_dd is None:
         date_ = today()
-    else:
-        date_ = date_from_str(yyyy_mm_dd)
+        return redirect('/executions/week/' + date_to_str(date_))
+
+    date_ = date_from_str(yyyy_mm_dd)
 
     if date_ > today():
         return HttpResponseNotFound("<h1>Page not found - Can not show date more than today</h1>")

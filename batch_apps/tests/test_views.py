@@ -7,7 +7,7 @@ import datetime
 class DailyExecutionsViewTest(TestCase):
 
     def test_executions_view_renders_executions_template(self):
-        response = self.client.get('/executions/')
+        response = self.client.get('/executions/', follow=True)
         self.assertTemplateUsed(response, 'executions.html')
 
     def test_view_should_return_404_if_there_is_unspecified_trailing_characters(self):
@@ -28,9 +28,14 @@ class DailyExecutionsViewTest(TestCase):
         response = self.client.get('/executions/' + tomorrow.strftime("%Y-%m-%d") + '/')
         self.assertEqual(response.status_code, 404)
 
-    def test_execution_view_should_default_to_today_if_date_is_not_specified(self):
+    def test_execution_view_should_redirect_to_today_full_date_url_if_not_specified(self):
         today = get_current_date_in_gmt8()
         response = self.client.get('/executions/')
+        self.assertRedirects(response, '/executions/' + date_to_str(today), status_code=302, target_status_code=301)
+
+    def test_execution_view_should_default_to_today_if_date_is_not_specified(self):
+        today = get_current_date_in_gmt8()
+        response = self.client.get('/executions/', follow=True)
         self.assertContains(response, today.strftime("%A, %d %B %Y"))
 
 
@@ -72,7 +77,12 @@ class WeeklyExecutionsViewTest(TestCase):
         self.assertContains(response, 'Weekly App 001')
         self.assertContains(response, 'is_due_False is_executed_False', count=6)
 
-    def test_weekly_execution_view_should_default_to_today_if_date_is_not_specified(self):
+    def test_weekly_execution_view_should_redirect_to_today_full_date_url_if_not_specified(self):
         today = get_current_date_in_gmt8()
         response = self.client.get('/executions/week/')
+        self.assertRedirects(response, '/executions/week/' + date_to_str(today), status_code=302, target_status_code=301)
+
+    def test_weekly_execution_view_should_default_to_today_if_date_is_not_specified(self):
+        today = get_current_date_in_gmt8()
+        response = self.client.get('/executions/week/', follow=True)
         self.assertContains(response, today.strftime("%A, %d %B %Y"))
