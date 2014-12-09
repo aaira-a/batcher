@@ -1,4 +1,5 @@
 from django.http import HttpResponseNotFound
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from batch_apps.models import App, Execution
 from batch_apps.generator import *
@@ -11,7 +12,7 @@ def today():
 def specific_date(request, yyyy_mm_dd=None):
     if yyyy_mm_dd is None:
         date_ = today()
-        return redirect('/executions/day/' + date_to_str(date_))
+        return redirect(reverse('batch_apps.views.specific_date') + date_to_str(date_) + '/')
 
     date_ = date_from_str(yyyy_mm_dd)
 
@@ -26,7 +27,7 @@ def specific_date(request, yyyy_mm_dd=None):
 def one_week_view(request, yyyy_mm_dd=None):
     if yyyy_mm_dd is None:
         date_ = today()
-        return redirect('/executions/week/' + date_to_str(date_))
+        return redirect(reverse('batch_apps.views.one_week_view') + date_to_str(date_) + '/')
 
     date_ = date_from_str(yyyy_mm_dd)
 
