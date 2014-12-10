@@ -1,6 +1,6 @@
 
 django==1.7
-django_mailbox==4.0.2
+django_mailbox==4.1.2
 pytz==2014.7
 
 # coverage package for test coverage

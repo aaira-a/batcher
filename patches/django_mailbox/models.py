@@ -299,7 +299,22 @@ class Mailbox(models.Model):
                 # defined charset, if it can't, let's mash some things
                 # inside the payload :-\
                 msg.get_payload(decode=True).decode(content_charset)
-            except UnicodeDecodeError:
+            except LookupError:
+                logger.warning(
+                    "Unknown encoding %s; interpreting as ASCII!",
+                    content_charset
+                )
+                msg.set_payload(
+                    msg.get_payload(decode=True).decode(
+                        'ascii',
+                        'ignore'
+                    )
+                )
+            except ValueError:
+                logger.warning(
+                    "Decoding error encountered; interpreting as ASCII!",
+                    content_charset
+                )
                 msg.set_payload(
                     msg.get_payload(decode=True).decode(
                         content_charset,
@@ -323,6 +338,8 @@ class Mailbox(models.Model):
         if 'date' in message:
             sent_time_str = convert_header_to_unicode(message['date'])
             msg.sent_time = parsedate_to_datetime(sent_time_str)
+        elif 'Delivered-To' in message:
+            msg.to_header = convert_header_to_unicode(message['Delivered-To'])
         msg.save()
         message = self._get_dehydrated_message(message, msg)
         msg.set_body(message.as_string())
