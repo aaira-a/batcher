@@ -47,6 +47,12 @@ def set_as_processed(message_admin, request, queryset):
 set_as_processed.short_description = 'Set as processed by BA'
 
 
+def strip_body(message_admin, request, queryset):
+    queryset.update(encoded=False)
+    queryset.update(body='')
+strip_body.short_description = 'Strip message body'
+
+
 class MailboxAdmin(admin.ModelAdmin):
     list_display = (
         'name',
@@ -109,7 +115,7 @@ class MessageAdmin(admin.ModelAdmin):
         'text',
         'html',
     )
-    actions = [resend_message_received_signal, set_as_unprocessed, set_as_processed]
+    actions = [resend_message_received_signal, set_as_unprocessed, set_as_processed, strip_body]
 
 if getattr(settings, 'DJANGO_MAILBOX_ADMIN_ENABLED', True):
     admin.site.register(Message, MessageAdmin)
