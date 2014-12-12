@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.core.urlresolvers import reverse
 from batch_apps.models import App
 from batch_apps.generator import *
 import datetime
@@ -41,6 +42,12 @@ class DailyExecutionsViewTest(TestCase):
         today = get_current_date_in_gmt8()
         response = self.client.get(day_url, follow=True)
         self.assertContains(response, today.strftime("%A, %d %B %Y"))
+
+    def test_execution_view_should_link_to_app_admin(self):
+        app1 = App.objects.create(name='Daily App 001', is_active=True, frequency='daily')
+        response = self.client.get(day_url + '2014-10-25/')
+        link = reverse('admin:batch_apps_app_change', args=[app1.id])
+        self.assertContains(response, link)
 
 
 class WeeklyExecutionsViewTest(TestCase):
@@ -90,6 +97,17 @@ class WeeklyExecutionsViewTest(TestCase):
         today = get_current_date_in_gmt8()
         response = self.client.get(week_url, follow=True)
         self.assertContains(response, today.strftime("%A, %d %B %Y"))
+
+    def test_weekly_execution_view_should_link_to_daily_execution_view(self):
+        response = self.client.get(week_url + '2014-10-30/')
+        link = reverse('batch_apps.views.specific_date') + '2014-10-30' + '/'
+        self.assertContains(response, link)
+
+    def test_weekly_execution_view_should_link_to_app_admin(self):
+        app1 = App.objects.create(name='Daily App 001', is_active=True, frequency='daily')
+        response = self.client.get(week_url + '2014-10-30/')
+        link = reverse('admin:batch_apps_app_change', args=[app1.id])
+        self.assertContains(response, link)
 
 
 class IndexViewTest(TestCase):
