@@ -31,7 +31,12 @@
                 <td><a href="{% url 'admin:batch_apps_app_change' app_day_exec.0.0.app.id %}">{{ app_day_exec.0.0.app.name }}</a></td>
 
                 {% for day in app_day_exec %}
-                    <td class="is_due_{{ day.0.is_due_today }} is_executed_{{ day.0.is_executed }}"></td>
+                    <td class="is_due_{{ day.0.is_due_today }} is_executed_{{ day.0.is_executed }} 
+                                {% if day.0.day.date == date_now %}
+                                    is_today_True
+                                {% endif %}
+                                ">
+                    </td>
                 {% endfor %}
             </tr>
         {% endfor %}
@@ -39,4 +44,4 @@
     </table>
 </div>
 
-<div class="container"> &nbsp </div>
+<div class="container"> &nbsp; </div>

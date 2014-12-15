@@ -36,7 +36,7 @@ def one_week_view(request, yyyy_mm_dd=None):
     else:
         execution_matrix = construct_weekly_execution_matrix(date_)
         dates = generate_one_week_date(date_)
-        context = {'dates': dates, 'execution_matrix': execution_matrix}
+        context = {'dates': dates, 'execution_matrix': execution_matrix, 'date_now': get_current_date_in_gmt8()}
         return render(request, 'executions_week.html', context)
 
 

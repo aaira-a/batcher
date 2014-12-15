@@ -15,6 +15,7 @@
                 <td class="is_due_True is_executed_False"></td>
                 <td class="is_due_False is_executed_True"></td>
                 <td class="is_due_False is_executed_False"></td>
+                <td class="is_due_True is_executed_False is_today_True"></td>
             </tr>
         </table>
     </div>
@@ -39,6 +40,10 @@ equal($(".is_due_False.is_executed_True").hasClass("yellow"), true);
 
 test("cell with is_due_False and is_executed_False should be applied gray class", function () {
 equal($(".is_due_False.is_executed_False").hasClass("gray"), true);
+});
+
+test("cell with is_due_True and is_executed_False and is_today_True should be applied yellow class", function () {
+equal($(".is_due_True.is_executed_False.is_today_True").hasClass("red", "yellow"), true);
 });
 
     </script>
