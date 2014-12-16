@@ -43,7 +43,11 @@ equal($(".is_due_False.is_executed_False").hasClass("gray"), true);
 });
 
 test("cell with is_due_True and is_executed_False and is_today_True should be applied yellow class", function () {
-equal($(".is_due_True.is_executed_False.is_today_True").hasClass("red", "yellow"), true);
+equal($(".is_due_True.is_executed_False.is_today_True").hasClass("yellow"), true);
+});
+
+test("cell with is_due_True and is_executed_False and is_today_True should be stripped red class", function () {
+equal($(".is_due_True.is_executed_False.is_today_True").hasClass("red"), false);
 });
 
     </script>
