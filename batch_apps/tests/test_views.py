@@ -116,3 +116,11 @@ class IndexViewTest(TestCase):
         today = get_current_date_in_gmt8()
         response = self.client.get('/executions/', follow=True)
         self.assertRedirects(response, week_url + date_to_str(today) + '/')
+
+    def test_superindex_view_with_slash_should_redirect_to_index_view(self):
+        response = self.client.get('/', follow=False)
+        self.assertRedirects(response, '/executions/', target_status_code=302)
+
+    def test_superindex_view_without_slash_should_redirect_to_index_view(self):
+        response = self.client.get('', follow=False)
+        self.assertRedirects(response, '/executions/', target_status_code=302)
