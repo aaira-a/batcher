@@ -1,6 +1,6 @@
 from django.contrib import admin
 from batch_apps.models import App, Pattern, Day, Execution
-from django.db import models
+from django.db import models, connection
 from django.forms import TextInput
 from batch_apps.integration import *
 
@@ -11,7 +11,7 @@ class PatternInline(admin.TabularInline):
 
 
 class AppAdmin(admin.ModelAdmin):
-    actions = ['activate_apps', 'deactivate_apps']
+    actions = ['activate_apps', 'deactivate_apps', 'vacuum_sqlite']
     list_display = ('name', 'is_active', 'frequency', 'country', 'category', )
     fieldsets = [
         (None, {'fields': ['name']}),
@@ -35,6 +35,10 @@ class AppAdmin(admin.ModelAdmin):
     def deactivate_apps(self, request, queryset):
         queryset.update(is_active=False)
     deactivate_apps.short_description = "Deactivate selected Apps"
+
+    def vacuum_sqlite(self, request, queryset):
+        cursor = connection.cursor()
+        cursor.execute("VACUUM")
 
 
 class ExecutionInline(admin.TabularInline):
