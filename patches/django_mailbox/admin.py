@@ -10,6 +10,7 @@ import logging
 
 from django.conf import settings
 from django.contrib import admin
+from django.db import connection
 
 from django_mailbox.models import MessageAttachment, Message, Mailbox
 from django_mailbox.signals import message_received
@@ -51,6 +52,12 @@ def strip_body(message_admin, request, queryset):
     queryset.update(encoded=False)
     queryset.update(body='')
 strip_body.short_description = 'Strip message body'
+
+
+def vacuum_sqlite(self, request, queryset):
+    cursor = connection.cursor()
+    cursor.execute("VACUUM")
+vacuum_sqlite.short_description = 'Vacuum SQLite Database'
 
 
 class MailboxAdmin(admin.ModelAdmin):
@@ -115,7 +122,7 @@ class MessageAdmin(admin.ModelAdmin):
         'text',
         'html',
     )
-    actions = [resend_message_received_signal, set_as_unprocessed, set_as_processed, strip_body]
+    actions = [resend_message_received_signal, set_as_unprocessed, set_as_processed, strip_body, vacuum_sqlite]
 
 if getattr(settings, 'DJANGO_MAILBOX_ADMIN_ENABLED', True):
     admin.site.register(Message, MessageAdmin)
