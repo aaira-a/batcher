@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django_mailbox.models import Message
 from batch_apps.models import App, Day, Execution
-from batch_apps.generator import *
+from batch_apps.generator import get_current_date_in_gmt8
 import datetime
 
 

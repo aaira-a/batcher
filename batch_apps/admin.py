@@ -2,7 +2,7 @@ from django.contrib import admin
 from batch_apps.models import App, Pattern, Day, Execution
 from django.db import models
 from django.forms import TextInput
-from batch_apps.integration import *
+from batch_apps.integration import execute_end_to_end_tasks
 
 
 class PatternInline(admin.TabularInline):

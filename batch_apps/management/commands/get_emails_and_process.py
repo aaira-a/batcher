@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.core.management import call_command
-from batch_apps.integration import *
+from batch_apps.integration import execute_end_to_end_tasks
 
 
 class Command(BaseCommand):

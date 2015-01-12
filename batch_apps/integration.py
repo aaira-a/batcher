@@ -1,7 +1,7 @@
 from django_mailbox.models import Message
 from batch_apps.models import Execution
-from batch_apps.generator import *
-from batch_apps.matcher import *
+from batch_apps.generator import get_current_date_in_gmt8
+from batch_apps.matcher import match_email_subject_to_app
 
 
 def execute_end_to_end_tasks(date_=get_current_date_in_gmt8()):

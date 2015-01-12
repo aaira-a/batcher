@@ -1,7 +1,12 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from batch_apps.models import App
-from batch_apps.generator import *
+
+from batch_apps.generator import (
+    date_to_str,
+    get_current_date_in_gmt8,
+)
+
 import datetime
 
 

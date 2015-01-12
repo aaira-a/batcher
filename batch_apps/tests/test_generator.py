@@ -1,6 +1,13 @@
 from django.test import TestCase
-from batch_apps.generator import *
-from pytz import timezone
+
+from batch_apps.generator import (
+    date_from_str,
+    date_to_str,
+    generate_one_week_date,
+    get_current_date_in_gmt8,
+)
+
+import pytz
 import datetime
 
 
@@ -8,7 +15,7 @@ class GenerateDateTest(TestCase):
 
     def test_get_current_date_in_gmt8(self):
         datetime_utc = datetime.datetime.now(pytz.utc)
-        converted_datetime = datetime_utc.astimezone((timezone('Asia/Kuala_Lumpur')))
+        converted_datetime = datetime_utc.astimezone((pytz.timezone('Asia/Kuala_Lumpur')))
         self.assertEqual(get_current_date_in_gmt8(), converted_datetime.date())
 
     def test_date_from_str_should_return_date_object_from_iso_format_string(self):

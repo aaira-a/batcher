@@ -2,7 +2,13 @@ from django.http import HttpResponseNotFound
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from batch_apps.models import App, Execution
-from batch_apps.generator import *
+
+from batch_apps.generator import (
+    date_from_str,
+    date_to_str,
+    generate_one_week_date,
+    get_current_date_in_gmt8,
+)
 
 
 def today():

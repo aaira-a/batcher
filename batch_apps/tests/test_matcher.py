@@ -1,5 +1,11 @@
 from django.test import TestCase
-from batch_apps.matcher import *
+
+from batch_apps.matcher import (
+    capture_date,
+    match_email_subject_to_app,
+    match_subject,
+)
+
 from batch_apps.models import App, Pattern
 
 
