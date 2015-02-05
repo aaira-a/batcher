@@ -91,21 +91,24 @@ class ExecutionManager(models.Manager):
 
     def get_or_create_execution_object(self, day_, app_):
         if app_.is_active is True:
-            execution, is_new = Execution.objects.get_or_create(day=day_, app=app_, is_due_today=self.app_due_today(app_, day_.date))
+            execution, is_new = Execution.objects.get_or_create(
+                                    day=day_,
+                                    app=app_,
+                                    is_due_today=self.app_due_today(app_, day_.date))
             return execution
 
         else:
             return None
 
-    def app_due_today(self, app, date):
+    def app_due_today(self, app, date_today):
         if app.frequency == 'daily':
             return True
 
         elif 'weekly' in app.frequency:
-            return date.strftime("%A") == self.get_day_of_week_from_string(app.frequency)
+            return bool(date_today.strftime("%A") == self.get_day_of_week_from_string(app.frequency))
 
         elif 'monthly' in app.frequency:
-            return date.strftime("%d") == self.get_day_of_month_from_string(app.frequency)
+            return bool(date_today.strftime("%d") == self.get_day_of_month_from_string(app.frequency))
 
         else:
             return False
@@ -142,8 +145,8 @@ class Execution(models.Model):
         if self.is_executed is True:
             return str(self.app) + " executed on " + str(self.day)
 
-        elif self.is_executed is False and \
-                self.is_due_today is True:
+        elif (self.is_executed is False and
+              self.is_due_today is True):
             return str(self.app) + " yet to be executed on " + str(self.day)
 
         else:

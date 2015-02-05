@@ -39,10 +39,16 @@ def one_week_view(request, yyyy_mm_dd=None):
 
     if date_ > today():
         return HttpResponseNotFound("<h1>Page not found - Can not show date more than today</h1>")
+
     else:
         execution_matrix = construct_weekly_execution_matrix(date_)
         dates = generate_one_week_date(date_)
-        context = {'dates': dates, 'execution_matrix': execution_matrix, 'date_now': get_current_date_in_gmt8()}
+
+        context = {'dates': dates,
+                   'execution_matrix': execution_matrix,
+                   'date_now': get_current_date_in_gmt8(),
+                   }
+
         return render(request, 'executions_week.html', context)
 
 
@@ -58,7 +64,8 @@ def construct_weekly_execution_matrix(date_):
         app_executions_for_a_week = []
 
         for date in dates:
-            app_executions_for_a_week.append(Execution.objects.filter(app=app, day__date=date))
+            app_executions_for_a_week.append(
+                Execution.objects.filter(app=app, day__date=date))
 
         execution_matrix.append(app_executions_for_a_week)
 
