@@ -6,38 +6,54 @@ Currently developed using Django 1.7 on Python 3.4.
 
 Setup steps for development:
 
-- Install Python 3.4, pip, virtualenv and add paths accordingly
+1. Install Python 3.4, pip, virtualenv and add paths accordingly to system environments
 
-- In virtualenv session, install required packages from requirements.txt
+2. In activated virtualenv session, install required packages from requirements.txt
 
-```
-pip install -r requirements.txt
-```
+    ```
+    pip install -r requirements.txt
+    ```
 
-- Replace admin.py and models.py in django_mailbox installation from requirements.txt with the files in /patches/ folder
+3. On Windows, run patch.bat from /patches/ or do manually the next two steps:
 
-- Delete all migrations from django_mailbox installation from requirements.txt with the migration files in the /patches/ folder
+    - Replace admin.py and models.py in django_mailbox installation with the files in /patches/ folder
 
-- Apply migrations
+    - Delete all migrations from django_mailbox installation with the migration files in the /patches/ folder
 
-```
-python manage.py migrate
-```
+4. Apply migrations
 
-- Create an admin
+    ```
+    python manage.py migrate
+    ```
 
-```
-python manage.py createsuperuser
-```
+5. Create an admin
 
-- Run development server
+    ```
+    python manage.py createsuperuser
+    ```
 
-```
-python manage.py runserver
-```
+6. Run development server
 
-- Add a development mailbox in Django_Mailbox app
+    ```
+    python manage.py runserver
+    ```
 
-```
-pop3+ssl://email%40domain.com:password@pop.gmail.com
-```
+7. Go to http://localhost:8000/admin and login using the created admin account
+
+8. Add the mailbox to be monitored in Django_Mailbox app
+
+    ```
+    pop3+ssl://email%40domain.com:password@pop.gmail.com
+    ```
+
+9. Using the built-in Django admin app, add App to be monitored, along with its frequency and email subject mactching Pattern(s). 
+
+10. (For deployment) In Task Scheduler (Windows) or Crontab (Linux), schedule these tasks within virtualenv session:
+
+    ```
+    /path/to/python/ /path/to/batcher/manage.py get_emails_and_process
+    ```
+
+    ```
+    /path/to/python/ /path/to/batcher/manage.py process_previous_day
+    ```
