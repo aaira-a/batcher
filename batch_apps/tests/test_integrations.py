@@ -31,8 +31,8 @@ class EmailExecutionAppPatternMatcherTest(TestCase):
         self.assertEqual(pattern.name_pattern, "SendExpiringNotice Success")
         self.assertTrue(pattern.is_active)
 
-        day = Execution.objects.get_or_create_day_object(datetime.date(2014, 10, 20))
-        execution = Execution.objects.get_or_create_execution_object(day, app)
+        day = Execution.objects._get_or_create_day_object(datetime.date(2014, 10, 20))
+        execution = Execution.objects._get_or_create_execution_object(day, app)
         self.assertTrue(execution.is_due_today)
         self.assertFalse(execution.is_executed)
 
@@ -58,7 +58,7 @@ class EmailExecutionAppPatternMatcherTest(TestCase):
         self.assertTrue(email_recheck.processed_batch_apps)
         self.assertTrue(email_recheck.matched_batch_apps)
 
-        execution_recheck = Execution.objects.get_or_create_execution_object(day, app)
+        execution_recheck = Execution.objects._get_or_create_execution_object(day, app)
         self.assertTrue(execution_recheck.is_executed)
         self.assertEqual(execution_recheck.email, email)
 
