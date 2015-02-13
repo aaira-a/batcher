@@ -14,4 +14,6 @@ before_script:
  - "cd $TRAVIS_BUILD_DIR"
 
 script:
- - "python manage.py test batch_apps"
+ - "coverage run manage.py test batch_apps"
+
+after_success: "coveralls"

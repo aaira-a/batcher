@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/azam-a/batcher.svg?branch=master)](https://travis-ci.org/azam-a/batcher) [![Coverage Status](https://coveralls.io/repos/azam-a/batcher/badge.png?branch=master)](https://coveralls.io/r/azam-a/batcher)
+
 Batcher App
 ===========
 

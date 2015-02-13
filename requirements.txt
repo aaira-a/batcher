@@ -1,10 +1,11 @@
 
-django==1.7
+django==1.7.4
 django_mailbox==4.1.2
 pytz==2014.7
 
 # coverage package for test coverage
 coverage==3.7.1
+coveralls
 
 # pydot and graphviz for graphing the models using django_extensions
 # graphviz binary should be installed separately
