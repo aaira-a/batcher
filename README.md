@@ -40,7 +40,11 @@ Setup steps for development:
     python manage.py runserver
     ```
 
-7. Go to http://localhost:8000/admin and login using the created admin account
+7. Go to admin panel and login using the created admin account
+
+    ```
+    http://localhost:8000/admin
+    ```
 
 8. Add the mailbox to be monitored in Django_Mailbox app
 
@@ -50,7 +54,7 @@ Setup steps for development:
 
 9. Using the built-in Django admin app, add App to be monitored, along with its frequency and email subject mactching Pattern(s). 
 
-10. (For deployment) In Task Scheduler (Windows) or Crontab (Linux), schedule these tasks within virtualenv session:
+10. (For deployment) In Task Scheduler (Windows) or Crontab (Linux), schedule these tasks within virtualenv session, perhaps once an hour:
 
     ```
     /path/to/python/ /path/to/batcher/manage.py get_emails_and_process
@@ -58,4 +62,14 @@ Setup steps for development:
 
     ```
     /path/to/python/ /path/to/batcher/manage.py process_previous_day
+    ```
+
+11. Implemented views:
+
+    ```
+    http://localhost:8000/
+    http://localhost:8000/executions/
+    http://localhost:8000/executions/week/
+    http://localhost:8000/executions/week/yyyy-mm-dd/
+    http://localhost:8000/executions/day/yyyy-mm-dd/
     ```
