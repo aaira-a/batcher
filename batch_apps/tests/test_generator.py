@@ -31,20 +31,16 @@ class GenerateWeekTest(TestCase):
 
     def test_generate_week_with_date_ending_should_return_ascending_dates_list(self):
         dates = generate_one_week_date(datetime.date(2014, 11, 11))
-        self.assertEqual(dates[0].strftime("%Y-%m-%d"), '2014-11-05')
-        self.assertEqual(dates[1].strftime("%Y-%m-%d"), '2014-11-06')
-        self.assertEqual(dates[2].strftime("%Y-%m-%d"), '2014-11-07')
-        self.assertEqual(dates[3].strftime("%Y-%m-%d"), '2014-11-08')
-        self.assertEqual(dates[4].strftime("%Y-%m-%d"), '2014-11-09')
-        self.assertEqual(dates[5].strftime("%Y-%m-%d"), '2014-11-10')
-        self.assertEqual(dates[6].strftime("%Y-%m-%d"), '2014-11-11')
+        expected_datestrings = ['2014-11-05', '2014-11-06', '2014-11-07', '2014-11-08',
+                                '2014-11-09', '2014-11-10', '2014-11-11']
+
+        for i in range(len(dates)):
+            self.assertEqual(dates[i].strftime("%Y-%m-%d"), expected_datestrings[i])
 
     def test_generate_week_with_date_ending_should_work_across_months(self):
         dates = generate_one_week_date(datetime.date(2014, 11, 3))
-        self.assertEqual(dates[0].strftime("%Y-%m-%d"), '2014-10-28')
-        self.assertEqual(dates[1].strftime("%Y-%m-%d"), '2014-10-29')
-        self.assertEqual(dates[2].strftime("%Y-%m-%d"), '2014-10-30')
-        self.assertEqual(dates[3].strftime("%Y-%m-%d"), '2014-10-31')
-        self.assertEqual(dates[4].strftime("%Y-%m-%d"), '2014-11-01')
-        self.assertEqual(dates[5].strftime("%Y-%m-%d"), '2014-11-02')
-        self.assertEqual(dates[6].strftime("%Y-%m-%d"), '2014-11-03')
+        expected_datestrings = ['2014-10-28', '2014-10-29', '2014-10-30', '2014-10-31',
+                                '2014-11-01', '2014-11-02', '2014-11-03']
+
+        for i in range(len(dates)):
+            self.assertEqual(dates[i].strftime("%Y-%m-%d"), expected_datestrings[i])

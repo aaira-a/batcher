@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/azam-a/batcher.svg?branch=master)](https://travis-ci.org/azam-a/batcher) [![Coverage Status](https://coveralls.io/repos/azam-a/batcher/badge.svg?branch=master)](https://coveralls.io/r/azam-a/batcher?branch=master)
+[![Build Status](https://travis-ci.org/azam-a/batcher.svg?branch=master)](https://travis-ci.org/azam-a/batcher) [![Coverage Status](https://coveralls.io/repos/azam-a/batcher/badge.svg?branch=master)](https://coveralls.io/r/azam-a/batcher?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/azam-a/batcher/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/azam-a/batcher/?branch=master)
 
 # Batcher
 
