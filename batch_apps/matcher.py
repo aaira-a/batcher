@@ -9,7 +9,7 @@ def match_email_subject_to_app(subject, app):
     for pattern in pattern_list:
         results.append(match_subject(pattern, subject))
 
-        if pattern.is_capturing_date:
+        if pattern.is_capturing_date and pattern.date_pattern is not "":
             results.append(capture_date(subject, pattern.date_pattern))
 
     return all(results)

@@ -122,3 +122,16 @@ class EmailToAppMatcherTest(TestCase):
         Pattern.objects.create(app=app_, name_pattern="EFG", is_active=True, is_capturing_date=True, date_pattern="dd/mm/yyyy")
         email_subject = "Email Subject - EFG but date pattern 25-12-2014 is wrong"
         self.assertFalse(match_email_subject_to_app(email_subject, app_))
+
+    def test_matcher_should_ignore_date_pattern_even_if_it_exists_but_inactive(self):
+        app_ = App.objects.create(name='App Identifier 006', is_active=True, frequency='daily')
+        Pattern.objects.create(app=app_, name_pattern="006", is_active=False, is_capturing_date=True, date_pattern="dd/mm/yyyy")      
+        Pattern.objects.create(app=app_, name_pattern="Identifier", is_active=False, is_capturing_date=True, date_pattern="dd/mm/yyyy")
+        email_subject = "Email Subject - App 006 25/02/2015"
+        self.assertTrue(match_email_subject_to_app(email_subject, app_))
+
+    def test_matcher_should_ignore_blank_date_pattern(self):
+        app_ = App.objects.create(name='App Identifier 007', is_active=True, frequency='daily')
+        Pattern.objects.create(app=app_, name_pattern="007", is_active=True, is_capturing_date=True, date_pattern="")
+        email_subject = "Email Subject - App 007 25/02/2015"
+        self.assertTrue(match_email_subject_to_app(email_subject, app_))
