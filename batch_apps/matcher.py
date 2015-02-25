@@ -48,5 +48,9 @@ def capture_date(text, supplied_date_pattern="dd/mm/yyyy"):
     m = re.search(regex, text)
 
     if bool(m) is True:
-        extracted_date = datetime.datetime.strptime(m.group(1), extraction_format)
-        return extracted_date.strftime("%Y-%m-%d")
+        try:
+            extracted_date = datetime.datetime.strptime(m.group(1), extraction_format)
+            return extracted_date.strftime("%Y-%m-%d")
+
+        except:
+            return None

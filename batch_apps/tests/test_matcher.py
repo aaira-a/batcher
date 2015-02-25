@@ -73,6 +73,11 @@ class RegularExpressionTest(TestCase):
         supplied_pattern = "dd-mm-yyyy"
         self.assertEqual(capture_date(email_subject, supplied_pattern), None)
 
+    def test_capture_date_should_return_None_if_the_datestring_cannot_be_converted_to_datetime_object(self):
+        email_subject = 'Random App (25/25/2015)'
+        supplied_pattern = "dd/mm/yyyy"
+        self.assertEqual(capture_date(email_subject, supplied_pattern), None)
+
 
 class EmailToAppMatcherTest(TestCase):
 
