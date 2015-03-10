@@ -15,11 +15,14 @@ day_url = '/executions/day/'
 week_url = '/executions/week/'
 
 
-class DailyExecutionsViewTest(TestCase):
+class LoggedInUserTests(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_superuser(username='admin001', email='admin@mail001.com', password='pass001')
         self.client.login(username=self.user.username, password='pass001')
+
+
+class DailyExecutionsViewTest(LoggedInUserTests):
 
     def test_executions_view_renders_executions_template(self):
         response = self.client.get(day_url, follow=True)
@@ -60,11 +63,7 @@ class DailyExecutionsViewTest(TestCase):
         self.assertContains(response, link)
 
 
-class WeeklyExecutionsViewTest(TestCase):
-
-    def setUp(self):
-        self.user = User.objects.create_superuser(username='admin001', email='admin@mail001.com', password='pass001')
-        self.client.login(username=self.user.username, password='pass001')
+class WeeklyExecutionsViewTest(LoggedInUserTests):
 
     def test_weekly_executions_view_renders_executions_template(self):
         response = self.client.get(week_url + '2014-10-30/')
@@ -124,11 +123,7 @@ class WeeklyExecutionsViewTest(TestCase):
         self.assertContains(response, link)
 
 
-class IndexViewTest(TestCase):
-
-    def setUp(self):
-        self.user = User.objects.create_superuser(username='admin001', email='admin@mail001.com', password='pass001')
-        self.client.login(username=self.user.username, password='pass001')
+class IndexViewTest(LoggedInUserTests):
 
     def test_index_view_should_redirect_to_default_weekly_view(self):
         today = get_current_date_in_gmt8()
