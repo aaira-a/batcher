@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 from batch_apps.models import App
 
 from batch_apps.generator import (
@@ -15,6 +16,10 @@ week_url = '/executions/week/'
 
 
 class DailyExecutionsViewTest(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_superuser(username='admin001', email='admin@mail001.com', password='pass001')
+        self.client.login(username=self.user.username, password='pass001')
 
     def test_executions_view_renders_executions_template(self):
         response = self.client.get(day_url, follow=True)
@@ -56,6 +61,10 @@ class DailyExecutionsViewTest(TestCase):
 
 
 class WeeklyExecutionsViewTest(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_superuser(username='admin001', email='admin@mail001.com', password='pass001')
+        self.client.login(username=self.user.username, password='pass001')
 
     def test_weekly_executions_view_renders_executions_template(self):
         response = self.client.get(week_url + '2014-10-30/')
@@ -116,6 +125,10 @@ class WeeklyExecutionsViewTest(TestCase):
 
 
 class IndexViewTest(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_superuser(username='admin001', email='admin@mail001.com', password='pass001')
+        self.client.login(username=self.user.username, password='pass001')
 
     def test_index_view_should_redirect_to_default_weekly_view(self):
         today = get_current_date_in_gmt8()

@@ -1,5 +1,6 @@
 from django.http import HttpResponseNotFound
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from batch_apps.models import App, Execution
 
@@ -15,6 +16,7 @@ def today():
     return get_current_date_in_gmt8()
 
 
+@login_required
 def specific_date(request, yyyy_mm_dd=None):
     if yyyy_mm_dd is None:
         date_ = today()
@@ -30,6 +32,7 @@ def specific_date(request, yyyy_mm_dd=None):
         return render(request, 'executions_day.html', context)
 
 
+@login_required
 def one_week_view(request, yyyy_mm_dd=None):
     if yyyy_mm_dd is None:
         date_ = today()
