@@ -15,14 +15,14 @@ day_url = '/executions/day/'
 week_url = '/executions/week/'
 
 
-class LoggedInUserTests(TestCase):
+class LoggedInUserTest(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_superuser(username='admin001', email='admin@mail001.com', password='pass001')
         self.client.login(username=self.user.username, password='pass001')
 
 
-class DailyExecutionsViewTest(LoggedInUserTests):
+class DailyExecutionsViewTest(LoggedInUserTest):
 
     def test_executions_view_renders_executions_template(self):
         response = self.client.get(day_url, follow=True)
@@ -63,7 +63,7 @@ class DailyExecutionsViewTest(LoggedInUserTests):
         self.assertContains(response, link)
 
 
-class WeeklyExecutionsViewTest(LoggedInUserTests):
+class WeeklyExecutionsViewTest(LoggedInUserTest):
 
     def test_weekly_executions_view_renders_executions_template(self):
         response = self.client.get(week_url + '2014-10-30/')
@@ -123,7 +123,7 @@ class WeeklyExecutionsViewTest(LoggedInUserTests):
         self.assertContains(response, link)
 
 
-class IndexViewTest(LoggedInUserTests):
+class IndexViewTest(LoggedInUserTest):
 
     def test_index_view_should_redirect_to_default_weekly_view(self):
         today = get_current_date_in_gmt8()
@@ -137,3 +137,13 @@ class IndexViewTest(LoggedInUserTests):
     def test_superindex_view_without_slash_should_redirect_to_index_view(self):
         response = self.client.get('', follow=False)
         self.assertRedirects(response, '/executions/', target_status_code=302)
+
+
+class AnonymousUserTest(TestCase):
+
+    def test_all_views_should_redirect_to_admin_login_for_anonymous_user(self):
+        views = [day_url, week_url]
+
+        for url in views:
+            self.client.get(url, follow=True)
+            self.assertTemplateUsed('admin/login.html')

@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+LOGIN_URL = '/admin/login/'
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
