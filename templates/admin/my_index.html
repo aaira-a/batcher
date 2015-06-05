@@ -1,0 +1,17 @@
+{% extends "admin/index.html" %}
+
+
+{% block sidebar %}
+
+    {{ block.super }}
+
+<div id="QuickLinks">
+    <p>&nbsp;</p>
+
+    <h1>QuickLinks</h1>
+        <a href="{% url 'batch_apps.views.one_week_view' %}">Weekly Execution View</a>
+            <br />
+        <a href="{% url 'batch_apps.views.maintenance' %}">Maintenance</a>
+</div>
+
+{% endblock %}

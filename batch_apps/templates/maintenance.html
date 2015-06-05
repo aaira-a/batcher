@@ -1,0 +1,42 @@
+{% load staticfiles %}
+
+<script src="{% static 'jquery-2.1.1.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'cells.js' %}"></script>
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+
+<body>
+
+<div class="container">
+
+    <img src="{% static 'image.png' %}"/>
+
+    <h1> Maintenance Page </h1>
+
+    <table class="table-bordered table-striped table-hover table-condensed">
+        <tr>
+            <td>Current SQLite Filesize</td>
+            <td class="btn-primary">{{ filesize }}</td>
+        </tr>
+        <tr>
+            <td>Strip All Messages Body</td>
+            <td class="btn-danger"><a href="{% url 'batch_apps.views.strip' %}">Strip!</a></td>
+        </tr>
+        <tr>
+            <td>VACUUM SQLite</td>
+            <td class="btn-success"><a href="{% url 'batch_apps.views.vacuum' %}">VACUUM!</a></td>
+        </tr>
+    </table>
+</div>
+
+<div class="container"> &nbsp; </div>
+
+<div class="container">
+    <h3>Links</h3>
+        <a href="{% url 'admin:index' %}">Admin Index</a>
+            <br />
+        <a href="{% url 'batch_apps.views.one_week_view' %}">Weekly Execution View</a>
+</div>
+
+</body>

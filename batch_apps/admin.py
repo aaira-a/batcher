@@ -4,6 +4,8 @@ from django.db import models
 from django.forms import TextInput
 from batch_apps.integration import execute_end_to_end_tasks
 
+admin.site.index_template = 'admin/my_index.html'
+
 
 class PatternInline(admin.TabularInline):
     model = Pattern

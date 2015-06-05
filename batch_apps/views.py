@@ -1,6 +1,7 @@
 from django.http import HttpResponseNotFound
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect
 from batch_apps.models import App, Execution
 
@@ -10,6 +11,12 @@ from batch_apps.generator import (
     generate_one_week_date,
     get_current_date_in_gmt8,
 )
+
+from batch_apps.maintenance import (
+    get_sqlite_filesize,
+    strip_message_body,
+    vacuum_sqlite,
+    )
 
 
 def today():
@@ -73,3 +80,25 @@ def construct_weekly_execution_matrix(date_):
         execution_matrix.append(app_executions_for_a_week)
 
     return execution_matrix
+
+
+@staff_member_required
+def maintenance(request):
+    filesize_string = get_sqlite_filesize()
+    context = {'filesize': filesize_string}
+    return render(request, 'maintenance.html', context)
+
+
+@staff_member_required
+def strip(request):
+    strip_message_body()
+    return redirect(reverse('batch_apps.views.maintenance'))
+
+
+@staff_member_required
+def vacuum(request):
+    try:
+        vacuum_sqlite()
+    except:
+        pass
+    return redirect(reverse('batch_apps.views.maintenance'))

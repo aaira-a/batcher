@@ -11,4 +11,7 @@ urlpatterns = patterns('',
                        url(r'^executions/day/$', 'batch_apps.views.specific_date', name='daily_default'),
                        url(r'^executions/$', RedirectView.as_view(pattern_name='weekly_default', permanent=False), name='index'),
                        url(r'^$', RedirectView.as_view(pattern_name='index', permanent=False), name='superindex'),
+                       url(r'^maintenance/$', 'batch_apps.views.maintenance', name='maintenance'),
+                       url(r'^strip$', 'batch_apps.views.strip', name='strip'),
+                       url(r'^vacuum$', 'batch_apps.views.vacuum', name='vacuum'),
                        )

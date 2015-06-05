@@ -13,6 +13,7 @@ import datetime
 
 day_url = '/executions/day/'
 week_url = '/executions/week/'
+maintenance_url = '/maintenance'
 
 
 class LoggedInUserTest(TestCase):
@@ -147,3 +148,29 @@ class AnonymousUserTest(TestCase):
         for url in views:
             self.client.get(url, follow=True)
             self.assertTemplateUsed('admin/login.html')
+
+
+class MaintenanceViewTest(LoggedInUserTest):
+
+    def test_maintenance_view_renders_maintenance_template(self):
+        response = self.client.get(maintenance_url, follow=True)
+        self.assertTemplateUsed(response, 'maintenance.html')
+
+    def test_maintenance_view_should_return_404_if_there_is_unspecified_trailing_characters(self):
+        response = self.client.get(maintenance_url + '/extra')
+        self.assertEqual(response.status_code, 404)
+
+    def test_strip_message_body_view_should_redirect_to_maintenance_page_after_attempting_strip(self):
+        response = self.client.get(reverse('batch_apps.views.strip'))
+        self.assertRedirects(response, reverse('batch_apps.views.maintenance'))
+
+    def test_vacuum_view_should_redirect_to_maintenance_page_after_attempting_vacuum(self):
+        response = self.client.get(reverse('batch_apps.views.vacuum'))
+        self.assertRedirects(response, reverse('batch_apps.views.maintenance'))
+
+
+class AdminIndexViewTest(LoggedInUserTest):
+
+    def test_admin_index_view_should_use_custom_template(self):
+        response = self.client.get(reverse('admin:index'))
+        self.assertTemplateUsed(response, 'admin/my_index.html')
