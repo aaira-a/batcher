@@ -8,6 +8,8 @@ from batch_apps.generator import (
     get_current_date_in_gmt8,
 )
 
+from unittest import mock
+
 import datetime
 
 
@@ -160,9 +162,19 @@ class MaintenanceViewTest(LoggedInUserTest):
         response = self.client.get(maintenance_url + '/extra')
         self.assertEqual(response.status_code, 404)
 
+    @mock.patch('batch_apps.views.strip_message_body')
+    def test_strip_message_body_view_should_call_maintenance_strip_function(self, mock_function):
+        self.client.get(reverse('batch_apps.views.strip'))
+        self.assertTrue(mock_function.called)
+
     def test_strip_message_body_view_should_redirect_to_maintenance_page_after_attempting_strip(self):
         response = self.client.get(reverse('batch_apps.views.strip'))
         self.assertRedirects(response, reverse('batch_apps.views.maintenance'))
+
+    @mock.patch('batch_apps.views.vacuum_sqlite')
+    def test_vacuum_view_should_call_maintenance_vacuum_function(self, mock_function):
+        self.client.get(reverse('batch_apps.views.vacuum'))
+        self.assertTrue(mock_function.called)
 
     def test_vacuum_view_should_redirect_to_maintenance_page_after_attempting_vacuum(self):
         response = self.client.get(reverse('batch_apps.views.vacuum'))
